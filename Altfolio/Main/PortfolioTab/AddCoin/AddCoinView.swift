@@ -28,16 +28,32 @@ struct AddCoinView: View {
                 Text("add new coins to the added ones")
                     .frame(height: 45.0)//.font(.system(11))
                 HStack {
-                    Image("btcLogo")
-                        .resizable()
-                        .frame(width: 45.0, height: 45.0)
-                        .clipShape(Circle())
-                        .padding(.leading, 5)
-                        .padding(.top, 5)
-                        .padding(.bottom, 5)
-                    Text("\(viewModel.ticker)")
+                    AsyncImage(url: URL(string: viewModel.selected.logoUrl)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .clipShape(Circle())
+                                .padding(.leading, 5)
+                                .padding(.top, 5)
+                                .padding(.bottom, 5)
+                        case .failure:
+                            Text("Failed")
+                                .foregroundColor(.red)
+                        @unknown default:
+                            Text("Failed")
+                                .foregroundColor(.red)
+                        }
+                    }
+                    .frame(width: 45.0, height: 45.0)
+                    
+                    Text(viewModel.selected.symbol)
                         .font(.system(size: 22.0))
-                    Text("Bitcoin")
+                    Text(viewModel.selected.name)
                         .font(.system(size: 12.0))
                     Spacer()
                     Image(systemName: "chevron.down")
@@ -49,6 +65,7 @@ struct AddCoinView: View {
                     RoundedRectangle(cornerRadius: 16)
                         .stroke(.gray, lineWidth: 1)
                 )
+                .contentShape(Rectangle())
                 .onTapGesture {
                     pushModal()
                 }

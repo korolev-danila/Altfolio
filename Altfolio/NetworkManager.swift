@@ -20,7 +20,7 @@ class NetworkManager {
         let urlBasic = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map"
         let parameters: Parameters = [
             "start" : "1",
-            "limit" : "5",
+            "limit" : "5000",
         ]
         let headers: HTTPHeaders = [
             "Accepts" : "application/json",
@@ -32,11 +32,9 @@ class NetworkManager {
             case .success(let value):
                       
                 guard let responts = value as? NSDictionary else { return }
-                
                 guard let data = responts.object(forKey: "data") else { return }
                 
                 var coins = [Coin]()
-                
                 coins = Coin.getArray(from: data)!
                 
                 completion(coins)
@@ -47,7 +45,7 @@ class NetworkManager {
         }
     }
     
-    func fetchId(id: String, completion: @escaping (() -> Void)) {
+    func fetchId(id: String, completion: @escaping (_ logoString: [String]) -> ()) {
         
         let url = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/info"
         let parameters: Parameters = [
@@ -62,26 +60,62 @@ class NetworkManager {
         AF.request(url, parameters: parameters, headers: headers).responseJSON { (response) in
             switch response.result {
             case .success(let value):
-                print("%%%%%%%%%%%%%%%%%%")
-                print(value)
-                print("%%%%%%%%%%%%%%%%%%")
+                guard let responts = value as? NSDictionary else { return }
+                guard let data = responts.object(forKey: "data") as? NSDictionary else { return }
+                guard let idData = data.object(forKey: id) as? NSDictionary else { return }
+                guard let string = idData.object(forKey: "logo") as? String else { return }
                 
+                let arrStr = [string]
+                completion(arrStr)
             case .failure(let error):
                 print(error)
             }
         }
     }
     
-    func fetchImg(url: String, completion: @escaping (() -> Void)) {
+    func fetchIdArray(idString: String, idArray: [String], completion: @escaping (_ logoDict: [String:String]) -> ()) {
+        
+        let url = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/info"
+        let parameters: Parameters = [
+            "id" : idString ,
+            "aux" : "logo"
+        ]
+        let headers: HTTPHeaders = [
+            "Accepts": "application/json",
+            "X-CMC_PRO_API_KEY": NetworkManager.apiKey
+        ]
         
         guard let url = URL(string: url) else { return }
-        AF.request(url).responseJSON { (response) in
+        AF.request(url, parameters: parameters, headers: headers).responseJSON { (response) in
+            print(response)
             switch response.result {
             case .success(let value):
-                print("%%%%%%%%%%%%%%%%%%")
-                print(value)
-                print("%%%%%%%%%%%%%%%%%%")
+                guard let responts = value as? NSDictionary else { return }
+                guard let data = responts.object(forKey: "data") as? NSDictionary else { return }
                 
+                var dict = [String:String]()
+                
+                for id in idArray {
+                    guard let idData = data.object(forKey: id) as? NSDictionary else { return }
+                    guard let string = idData.object(forKey: "logo") as? String else { return }
+                    dict[id] = string
+                }
+                
+                completion(dict)
+                
+            case .failure(let error):
+                print("Request failed with error \(error)")
+            }
+        }
+    }
+    
+    func fetchImg(url: String, completion: @escaping (_ imageData: Data) -> ()) {
+        
+        guard let url = URL(string: url) else { return }
+        AF.request(url).responseData { (response) in
+            switch response.result {
+            case .success(let data):
+                completion(data)
             case .failure(let error):
                 print(error)
             }

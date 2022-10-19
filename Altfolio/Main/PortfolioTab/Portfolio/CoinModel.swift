@@ -7,23 +7,15 @@
 
 import Foundation
 
-//struct Response: Codable {
-//    var data: [Coin]
-//
-//    init?(json: [String: Array]) {
-//        let data = json["data"] as? Array
-//
-//        self.data = data
-//    }
-//}
-
-struct Coin: Codable {
+struct Coin: Codable, Identifiable {
     
-    let id: Int
+    let id: String
     let name: String
     let rank: Int
     let slug: String
     let symbol: String
+  //  var logoData: Data?
+    var logoUrl: String = ""
     
     init?(json: [String: Any]) {
         
@@ -33,11 +25,22 @@ struct Coin: Codable {
         let slug = json["slug"] as! String
         let symbol = json["symbol"] as! String
         
+        self.id = "\(id)"
+        self.name = name
+        self.rank = rank
+        self.slug = slug
+        self.symbol = symbol
+    
+    }
+    
+    init(id: String, name: String, rank: Int, slug: String, symbol: String) {
+        
         self.id = id
         self.name = name
         self.rank = rank
         self.slug = slug
         self.symbol = symbol
+   
     }
     
     static func getArray(from jsonArray: Any) -> [Coin]? {

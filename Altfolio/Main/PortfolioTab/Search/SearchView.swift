@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchView: View {
     
-    @ObservedObject var viewModel: AddCoinViewModel
+    @StateObject var viewModel: AddCoinViewModel
     
     var body: some View {
         VStack {
@@ -25,10 +25,10 @@ struct SearchView: View {
                         .stroke(.gray, lineWidth: 1)
                 )
                 .padding(5)
-            List(btcArr) { obj in
-                PortfolioCell(object: obj)
+            List(viewModel.coins) { coin in
+                SearchCell(coin: coin)
                     .onTapGesture {
-                        print("\(obj)")
+                        print("\(coin)")
                     }
             }.listStyle(PlainListStyle())
             
