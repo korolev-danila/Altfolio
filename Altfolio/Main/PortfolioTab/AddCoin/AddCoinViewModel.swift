@@ -14,10 +14,19 @@ class AddCoinViewModel: ObservableObject {
     @Published var selected = Coin(id: "1", name: "Bitcoin", rank: 1, slug: "bitcoin", symbol: "BTC")
     @Published var ticker = "btc"
     @Published var count = ""
+    @Published var searchText = ""
+    
+    var searchResults: [Coin] {
+           if searchText.isEmpty {
+               return coins
+           } else {
+               return coins.filter { $0.name.hasPrefix(searchText) || $0.symbol.hasPrefix(searchText)  }
+           }
+       }
     
     func updateSelected() {
         DispatchQueue.main.async {
-            NetworkManager.shared.fetchId(id: self.selected.id) { logoString in
+            NetworkManager.shared.fetchLogoURL(id: self.selected.id) { logoString in
                 self.selected.logoUrl = logoString[0]
             }
         }

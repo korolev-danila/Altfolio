@@ -39,9 +39,7 @@ class PortfolioCoordinator: Coordinator {
          
         view.showAddCoin = { [weak self] in
             self?.showAddCoin()
-
         }
-        
         return view
     }()
     
@@ -74,8 +72,17 @@ class PortfolioCoordinator: Coordinator {
     // MARK: - Navigation Search
     func showSearch(viewModel: AddCoinViewModel) {
         print("push Search")
-        let searchVC = UIHostingController(rootView: SearchView(viewModel: viewModel))
         
-        rootViewController.showDetailViewController(searchVC, sender: nil)
+        var searchView = SearchView(viewModel: viewModel)
+        searchView.popSearchView = { [weak self] in
+            self?.dismissSearch()
+        }
+        
+        rootViewController.showDetailViewController(UIHostingController(rootView: searchView), sender: nil)
+    }
+    
+    func dismissSearch() {
+        print("pop Search")
+        rootViewController.dismiss(animated: true)
     }
 }

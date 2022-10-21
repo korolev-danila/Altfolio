@@ -11,13 +11,18 @@ struct SearchView: View {
     
     @StateObject var viewModel: AddCoinViewModel
     
+    var popSearchView: () -> () = { }
+    private func pop() {
+        popSearchView()
+    }
+    
     var body: some View {
         VStack {
             Image(systemName: "chevron.down")
                 .resizable()
                 .frame(width: 25.0, height: 8.0, alignment: .center)
                 .padding(5.0)
-            TextField("add amount", text: $viewModel.count)
+            TextField("add amount", text: $viewModel.searchText)
                 .frame(height: 25.0)
                 .padding()
                 .overlay(
@@ -25,10 +30,12 @@ struct SearchView: View {
                         .stroke(.gray, lineWidth: 1)
                 )
                 .padding(5)
-            List(viewModel.coins) { coin in
+            List(viewModel.searchResults, id: \.self){ coin in
                 SearchCell(coin: coin)
                     .onTapGesture {
                         print("\(coin)")
+                        viewModel.selected = coin
+                        popSearchView()
                     }
             }.listStyle(PlainListStyle())
             

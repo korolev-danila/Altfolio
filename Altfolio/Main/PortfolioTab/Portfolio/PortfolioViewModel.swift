@@ -12,10 +12,9 @@ class PortfolioViewModel {
     @Published var coinsMap = [Coin]()
   
     func updateURL() {
-        
+        print(" func updateURL")
         var idArray = [String]()
         var idString = ""
-        print(" func updateURL")
         for (index,coin) in self.coinsMap.enumerated() {
             idArray.append(coin.id)
             if index == 0 {
@@ -24,13 +23,12 @@ class PortfolioViewModel {
                 idString += "," + coin.id
             }
         }
-        print(" func updateURL disptchQueue")
 //        idArray = ["1","2","3","4","5","6"]
 //        idString = "1,2,3,4,5,6"
         
         DispatchQueue.main.async {
             
-            NetworkManager.shared.fetchIdArray(idString: idString, idArray: idArray, completion: { dict in
+            NetworkManager.shared.fetchLogoUrlArray(idString: idString, idArray: idArray, completion: { dict in
                 
                 for (index,_) in self.coinsMap.enumerated() {
                     guard let urlStr = dict[self.coinsMap[index].id] else {
