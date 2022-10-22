@@ -24,6 +24,8 @@ class AddCoinViewModel: ObservableObject {
            }
        }
     
+    
+    
     func updateSelected() {
         DispatchQueue.main.async {
             NetworkManager.shared.fetchLogoURL(id: self.selected.id) { logoString in

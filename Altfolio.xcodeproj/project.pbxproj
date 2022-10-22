@@ -34,6 +34,8 @@
 		837B2DC728BC100C009A5888 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837B2DC628BC100C009A5888 /* SearchView.swift */; };
 		83893E2E28BE6FA00076AC32 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83893E2D28BE6FA00076AC32 /* NetworkManager.swift */; };
 		83942BC928C0BC930000C6F6 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83942BC828C0BC930000C6F6 /* SearchCell.swift */; };
+		8395EEC92904491900CF2BD3 /* MainCoordinatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8395EEC82904491900CF2BD3 /* MainCoordinatorTest.swift */; };
+		8395EECB29044B3600CF2BD3 /* PortfolioTabCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8395EECA29044B3500CF2BD3 /* PortfolioTabCoordinatorTests.swift */; };
 		9F87B9343FEFF5F082D77C51 /* Pods_Altfolio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5370B386A7CC6D0723F8115 /* Pods_Altfolio.framework */; };
 		E76BD8CFE58D015E88A50DAA /* Pods_AltfolioTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BD075FEB0161AA9678D1661 /* Pods_AltfolioTests.framework */; };
 /* End PBXBuildFile section */
@@ -89,6 +91,8 @@
 		837B2DC628BC100C009A5888 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		83893E2D28BE6FA00076AC32 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		83942BC828C0BC930000C6F6 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		8395EEC82904491900CF2BD3 /* MainCoordinatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTest.swift; sourceTree = "<group>"; };
+		8395EECA29044B3500CF2BD3 /* PortfolioTabCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTabCoordinatorTests.swift; sourceTree = "<group>"; };
 		A0D462B099F322C52B026A25 /* Pods-AltfolioTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AltfolioTests.debug.xcconfig"; path = "Target Support Files/Pods-AltfolioTests/Pods-AltfolioTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ADA986A2BE6D3C50FDD23600 /* Pods-Altfolio-AltfolioUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Altfolio-AltfolioUITests.debug.xcconfig"; path = "Target Support Files/Pods-Altfolio-AltfolioUITests/Pods-Altfolio-AltfolioUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D5370B386A7CC6D0723F8115 /* Pods_Altfolio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Altfolio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -181,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				837B2D8328BA4BAD009A5888 /* AltfolioTests.swift */,
+				8395EEC52904469200CF2BD3 /* CoordinatorTest */,
 			);
 			path = AltfolioTests;
 			sourceTree = "<group>";
@@ -270,6 +275,15 @@
 				83942BC828C0BC930000C6F6 /* SearchCell.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		8395EEC52904469200CF2BD3 /* CoordinatorTest */ = {
+			isa = PBXGroup;
+			children = (
+				8395EEC82904491900CF2BD3 /* MainCoordinatorTest.swift */,
+				8395EECA29044B3500CF2BD3 /* PortfolioTabCoordinatorTests.swift */,
+			);
+			path = CoordinatorTest;
 			sourceTree = "<group>";
 		};
 		95B78ED9A7E4C7BEF13FB917 /* Frameworks */ = {
@@ -548,7 +562,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8395EECB29044B3600CF2BD3 /* PortfolioTabCoordinatorTests.swift in Sources */,
 				837B2D8428BA4BAD009A5888 /* AltfolioTests.swift in Sources */,
+				8395EEC92904491900CF2BD3 /* MainCoordinatorTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
