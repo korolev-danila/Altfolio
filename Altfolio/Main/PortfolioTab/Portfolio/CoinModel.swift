@@ -14,7 +14,6 @@ struct Coin: Codable, Identifiable, Hashable {
     let rank: Int
     let slug: String
     let symbol: String
-  //  var logoData: Data?
     var logoUrl: String = ""
     
     init?(json: [String: Any]) {

@@ -7,6 +7,8 @@
 
 import UIKit
 import SwiftUI
+import CoreData
+
 
 class PortfolioCoordinator: Coordinator {
     
@@ -24,6 +26,9 @@ class PortfolioCoordinator: Coordinator {
     }
     
     func start() {
+        
+        viewModel.fetchMyCoins()
+        
         rootViewController.setViewControllers( [UIHostingController(rootView: portfolioView)] , animated: true)
         
         DispatchQueue.main.async {
@@ -58,16 +63,29 @@ class PortfolioCoordinator: Coordinator {
         addCoinView.popAddCoin = { [weak self] in
             self?.dismissAddCoin()
         }
+        
+        addCoinView.saveCoin = { [weak self] in
+            
+            self?.save(coin: addCoinVM.selected, amount: addCoinVM.amount )
+        }
+        
         addCoinView.pushSearch = { [weak self] in
             self?.showSearch(viewModel: addCoinView.viewModel)
         }
         rootViewController.pushViewController(UIHostingController(rootView: addCoinView), animated: true)
     }
     
+    func save(coin: Coin, amount: String) {
+        print("save coin")
+        viewModel.save(coin: coin,amount: amount)
+        rootViewController.popViewController(animated: true)
+    }
+    
     func dismissAddCoin() {
         print("pop addCoin")
         rootViewController.popViewController(animated: true)
     }
+    
     
     // MARK: - Navigation Search
     func showSearch(viewModel: AddCoinViewModel) {

@@ -16,6 +16,11 @@ struct AddCoinView: View {
         popAddCoin()
     }
     
+    var saveCoin: () -> () = { }
+    private func save() {
+        saveCoin()
+    }
+    
     var pushSearch: () -> () = { }
     private func pushModal() {
         pushSearch()
@@ -69,7 +74,7 @@ struct AddCoinView: View {
                 .onTapGesture {
                     pushModal()
                 }
-                TextField("add amount", text: $viewModel.count)
+                TextField("add amount", text: $viewModel.amount)
                     .frame(height: 45.0)
                     .padding()
                     .overlay(
@@ -87,8 +92,8 @@ struct AddCoinView: View {
                         }
                     }
                 Spacer()
-                Button(action: pop) {
-                    Text("Accept")
+                Button(action: save) {
+                    Text("Save coin")
                 }
                 .frame(height: 35.0)
             }.padding()

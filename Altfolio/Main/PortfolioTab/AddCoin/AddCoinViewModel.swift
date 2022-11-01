@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 class AddCoinViewModel: ObservableObject {
     
@@ -13,7 +14,7 @@ class AddCoinViewModel: ObservableObject {
     
     @Published var selected = Coin(id: "1", name: "Bitcoin", rank: 1, slug: "bitcoin", symbol: "BTC")
     @Published var ticker = "btc"
-    @Published var count = ""
+    @Published var amount = ""
     @Published var searchText = ""
     
     var searchResults: [Coin] {
@@ -23,8 +24,6 @@ class AddCoinViewModel: ObservableObject {
                return coins.filter { $0.name.hasPrefix(searchText) || $0.symbol.hasPrefix(searchText)  }
            }
        }
-    
-    
     
     func updateSelected() {
         DispatchQueue.main.async {
