@@ -7,11 +7,10 @@
 
 import SwiftUI
 
-var btcArr = Array(repeating: btcObj, count: 10)
 
 struct PortfolioView: View {
     
-    public var viewModel: PortfolioViewModel
+    @ObservedObject var viewModel: PortfolioViewModel
     
     var showAddCoin: () -> () = { }
     
@@ -40,8 +39,8 @@ struct PortfolioView: View {
                             .listRowSeparator(.hidden)
                     } else {
                         Text("Tracking list")
-                        .frame(maxWidth: .infinity, alignment: .center)                    }
-                    ForEach(btcArr, id: \.self) { obj in
+                        .frame(maxWidth: .infinity, alignment: .center)  }
+                    ForEach(self.viewModel.coins, id: \.self) { obj in
                         PortfolioCell(object: obj)
                     }
                 }.listStyle( .plain )

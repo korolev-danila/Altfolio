@@ -7,43 +7,33 @@
 
 import SwiftUI
 
-let image = UIImage(named: "btcLogo")
-let btcObj = Bitcoin(id: 1,
-                  ticker: "BTC",
-                  name: "Bitcoin",
-                  cost: 21200.67,
-                  volume: 0.55,
-                  imageData: image!.pngData()! )
-
 struct PortfolioCell: View {
     
-    var object: Bitcoin
+    var object: MyCoin!
+    
+    func removeZerosFromEnd(_ value: Double) -> String {
+            let formatter = NumberFormatter()
+            let number = NSNumber(value: value)
+            formatter.minimumFractionDigits = 0
+            formatter.maximumFractionDigits = 16
+            return String(formatter.string(from: number) ?? "")
+        }
     
     var body: some View {
         HStack {
-            Image(uiImage:(UIImage(data: object.imageData) ?? UIImage(named: "btcLogo")! ))
-                .resizable()
-                .frame(width: 45.0, height: 45.0)
-                .clipShape(Circle())
-                .padding(.leading, 5)
+            AsyncImg(url: object.logoUrl ?? "https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg")
             
             VStack(alignment: .leading, spacing: 0.0) {
                 HStack {
-                    Text(object.ticker)
+                    Text(object.symbol!)
                         .font(.title)
-                    Text(object.name)
+                    Text(object.name!)
                 }
-                Text("\(object.volume)")
+                Text(removeZerosFromEnd(object.amount))
             }
             Spacer()
-            Text("\(object.cost)")
+            Text(removeZerosFromEnd(object.cost))
         }
         .frame( height: 85)
-    }
-}
-
-struct PortfolioCell_Previews: PreviewProvider {
-    static var previews: some View {
-        PortfolioCell(object: btcObj)
     }
 }

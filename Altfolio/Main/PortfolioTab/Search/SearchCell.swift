@@ -20,28 +20,7 @@ struct SearchCell: View {
     
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: coin.logoUrl)) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .clipShape(Circle())
-                        .padding(.leading, 5)
-                        .padding(.top, 5)
-                        .padding(.bottom, 5)
-                case .failure:
-                    Text("Failed")
-                        .foregroundColor(.red)
-                @unknown default:
-                    Text("Failed")
-                        .foregroundColor(.red)
-                }
-            }
-            .frame(width: 45.0, height: 45.0)
+            AsyncImg(url: coin.logoUrl)
             
             VStack(alignment: .leading, spacing: 0.0) {
                 HStack {

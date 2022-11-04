@@ -9,11 +9,11 @@ import Foundation
 import CoreData
 import UIKit
 
-class PortfolioViewModel {
+class PortfolioViewModel: ObservableObject {
     
     @Published var coinsMap = [Coin]()
     
-    var coins = [MyCoin]()
+    @Published var coins = [MyCoin]()
   
     let context: NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -47,6 +47,7 @@ class PortfolioViewModel {
         myCoin.name = coin.name
         myCoin.amount = value
         myCoin.cost = 0.0
+        myCoin.logoUrl = coin.logoUrl
         
         do {
             try context.save()
