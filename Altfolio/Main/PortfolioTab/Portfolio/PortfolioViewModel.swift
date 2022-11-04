@@ -14,13 +14,12 @@ class PortfolioViewModel: ObservableObject {
     @Published var coinsMap = [Coin]()
     
     @Published var coins = [MyCoin]()
-  
+    
     let context: NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         return context
     }()
-    
     
     // MARK: - CoreData layer
     func fetchMyCoins() {
@@ -39,21 +38,35 @@ class PortfolioViewModel: ObservableObject {
         if amount == "" { return }
         
         guard let value = Double(amount) else { return }
-        guard let entity = NSEntityDescription.entity(forEntityName: "MyCoin", in: context) else { return }
         
-        let myCoin = MyCoin(entity: entity , insertInto: context)
-        myCoin.id = coin.id
-        myCoin.symbol = coin.symbol
-        myCoin.name = coin.name
-        myCoin.amount = value
-        myCoin.cost = 0.0
-        myCoin.logoUrl = coin.logoUrl
         
-        do {
-            try context.save()
+        if coins.filter{ $0.symbol == coin.symbol }.first != nil {
+            
+            coins.filter{ $0.symbol == coin.symbol }.first?.amount += value
+            
+            do {
+                try context.save()
+                print("save old coin")
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+            
+        } else {
+            guard let entity = NSEntityDescription.entity(forEntityName: "MyCoin", in: context) else { return }
+            let myCoin = MyCoin(entity: entity , insertInto: context)
+            myCoin.id = coin.id
+            myCoin.symbol = coin.symbol
+            myCoin.name = coin.name
+            myCoin.amount = value
+            myCoin.cost = 0.0
+            myCoin.logoUrl = coin.logoUrl
+            
+            do {
+                try context.save()
                 coins.append(myCoin)
-        } catch let error as NSError {
-            print(error.localizedDescription)
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
         }
     }
     
@@ -80,7 +93,7 @@ class PortfolioViewModel: ObservableObject {
                         print("error guard updateURL()"); return }
                     self.coinsMap[index].logoUrl = urlStr
                 }
-               
+                
             })
         }
     }
