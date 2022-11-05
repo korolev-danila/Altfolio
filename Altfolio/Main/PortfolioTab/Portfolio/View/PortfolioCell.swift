@@ -32,7 +32,7 @@ struct PortfolioCell: View {
                 Text(removeZerosFromEnd(object.amount))
             }
             Spacer()
-            Text(removeZerosFromEnd(object.cost))
+            Text(String(format: "%.2f", object.price) + "$")
         }
         .frame( height: 85)
     }

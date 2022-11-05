@@ -27,7 +27,9 @@ class PortfolioCoordinator: Coordinator {
     
     func start() {
         
+        
         viewModel.fetchMyCoins()
+        viewModel.updatePrice()
         
         rootViewController.setViewControllers( [UIHostingController(rootView: portfolioView)] , animated: true)
         

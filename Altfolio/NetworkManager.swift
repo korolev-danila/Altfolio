@@ -115,4 +115,35 @@ class NetworkManager {
         }
     }
     
+    func fetchPriceArray(idString: String, idArray: [String], completion: @escaping (_ logoDict: [String:Double]) -> ()) {
+        
+        let url = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest"
+        let parameters: Parameters = [
+            "id" : idString
+        ]
+
+        guard let url = URL(string: url) else { return }
+        AF.request(url, parameters: parameters, headers: headers).responseJSON { (response) in
+            
+            switch response.result {
+            case .success(let value):
+                guard let responts = value as? NSDictionary else { return }
+                guard let data = responts.object(forKey: "data") as? NSDictionary else { return }
+
+                var dict = [String:Double]()
+
+                for id in idArray {
+                    guard let idData = data.object(forKey: id) as? NSDictionary else { return }
+                    guard let quote = idData.object(forKey: "quote") as? NSDictionary else { return }
+                    guard let usdPrice = quote.object(forKey: "USD") as? NSDictionary else { return }
+                    guard let price = usdPrice.object(forKey: "price") as? Double else { return }
+                    dict[id] = price
+                }
+                completion(dict)
+            case .failure(let error):
+                print("Request failed with error \(error)")
+            }
+        }
+    }
+    
 }

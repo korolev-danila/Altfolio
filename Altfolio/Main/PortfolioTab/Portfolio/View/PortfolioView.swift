@@ -14,8 +14,12 @@ struct PortfolioView: View {
     
     var showAddCoin: () -> () = { }
     
-    private func addItem() {
-        showAddCoin()
+    var totalValue: Int {
+        var total: Double = 0.0
+        for coin in viewModel.coins {
+            total += coin.price
+        }
+        return Int(total)
     }
     
     init(viewModel: PortfolioViewModel) {
@@ -26,10 +30,14 @@ struct PortfolioView: View {
         self.viewModel = PortfolioViewModel()
     }
     
+    private func addItem() {
+        showAddCoin()
+    }
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .leading , spacing: 5.0) {
-                TotalBalance(balance: 10400)
+                TotalBalance(balance: totalValue)
                     .padding(.leading, 15)
                     .padding(.trailing, 15)
                 List() {
@@ -44,6 +52,9 @@ struct PortfolioView: View {
                         PortfolioCell(object: obj)
                     }
                 }.listStyle( .plain )
+                    .refreshable {
+                        viewModel.updatePrice()
+                    }
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading ) {
