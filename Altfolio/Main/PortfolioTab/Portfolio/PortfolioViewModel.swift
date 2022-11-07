@@ -163,7 +163,6 @@ class PortfolioViewModel: ObservableObject {
     func fetchPrice(coinId: String) {
         NetworkManager.shared.fetchPriceArray(idString: coinId, idArray: [coinId], completion: { dict in
             print(" newPrice of newCoin ")
-            print(dict)
             self.coins.filter{ $0.id == coinId }.first?.price = dict[coinId] ?? 0.0
             self.updateTotalBalance()
         })

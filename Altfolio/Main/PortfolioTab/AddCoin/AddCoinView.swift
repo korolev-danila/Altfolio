@@ -63,20 +63,20 @@ struct AddCoinView: View {
                     )
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationTitle("Add Coin")
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading ) {
-                            Button(action: pop) {
-                                Label("Add Item", systemImage: "chevron.left")
-                                    .font(.title)
-                            } //.padding(1.0)
-                        }
-                    }
                 Spacer()
                 Button(action: save) {
                     Text("Save coin")
                 }
                 .frame(height: 35.0)
             }.padding()
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading ) {
+                        Button(action: pop) {
+                            Label("%%%%", systemImage: "chevron.left")
+                                .font(.title)
+                        }
+                    }
+                }
         }
         
     }

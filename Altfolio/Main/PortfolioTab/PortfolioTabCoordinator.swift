@@ -47,6 +47,10 @@ class PortfolioCoordinator: Coordinator {
         view.showAddCoin = { [weak self] in
             self?.showAddCoin()
         }
+        
+        view.showDetails = { [weak self] coin in
+            self?.showDetails(coin: coin)
+        }
         return view
     }()
     
@@ -60,14 +64,13 @@ class PortfolioCoordinator: Coordinator {
             addCoinVM.updateSelected()
         }
         
-        
         var addCoinView = AddCoinView(viewModel: addCoinVM)
+        
         addCoinView.popAddCoin = { [weak self] in
             self?.dismissAddCoin()
         }
         
         addCoinView.saveCoin = { [weak self] in
-            
             self?.save(coin: addCoinVM.selected, amount: addCoinVM.amount )
         }
         
@@ -104,5 +107,28 @@ class PortfolioCoordinator: Coordinator {
     func dismissSearch() {
         print("pop Search")
         rootViewController.dismiss(animated: true)
+    }
+    
+    // MARK: - Navigation Details
+    
+    func showDetails(coin: Coin) {
+        print("!!!coordinator showDetails")
+        guard let coinCD = viewModel.coinsCD.filter({ $0.name == coin.name }).first else {print("error guard"); return }
+        
+        let detailsVM = DetailsViewModel(coin: coin ,coinCD: coinCD)
+        
+        var detailsView = DetailsView(viewModel: detailsVM )
+        
+        detailsView.popDetails = { [weak self] in
+            self?.dismissDetails()
+        }
+        
+        rootViewController.pushViewController(UIHostingController(rootView: detailsView), animated: true)
+
+    }
+    
+    func dismissDetails() {
+        print("pop Details")
+        rootViewController.popViewController(animated: true)
     }
 }

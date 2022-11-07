@@ -12,18 +12,22 @@ struct PortfolioView: View {
     
     @ObservedObject var viewModel: PortfolioViewModel
     
-    var showAddCoin: () -> () = { }
-    
     init(viewModel: PortfolioViewModel) {
         self.viewModel = viewModel
     }
     
-    init() {
-        self.viewModel = PortfolioViewModel()
-    }
+//    init() {
+//        self.viewModel = PortfolioViewModel()
+//    }
     
+    var showAddCoin: () -> () = { }
     private func addItem() {
         showAddCoin()
+    }
+    
+    var showDetails: (Coin) -> () = { _ in }
+    private func showDetail(_ coin: Coin) {
+        showDetails(coin)
     }
     
     var body: some View {
@@ -44,10 +48,8 @@ struct PortfolioView: View {
                         PortfolioCell(object: obj)
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                print(obj.name)
-                                print(obj.price)
-                                print(obj.amount)
-                                print(viewModel.coinsCD.filter{ $0.symbol == obj.symbol }.first ?? "nill coinsCD")
+                                print(obj.id)
+                                showDetails(obj)
                             }
                     }
                 }.listStyle( .plain )
@@ -74,6 +76,6 @@ struct PortfolioView: View {
 struct PortfolioView_Previews: PreviewProvider {
     
     static var previews: some View {
-        PortfolioView()
+        PortfolioView(viewModel: PortfolioViewModel())
     }
 }
