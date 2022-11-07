@@ -23,6 +23,7 @@ struct SearchView: View {
                 .frame(width: 25.0, height: 8.0, alignment: .center)
                 .padding(5.0)
             TextField("add amount", text: $viewModel.searchText)
+                .contentShape(Rectangle())
                 .frame(height: 25.0)
                 .padding()
                 .overlay(

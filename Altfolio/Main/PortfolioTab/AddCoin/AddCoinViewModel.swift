@@ -10,14 +10,14 @@ import CoreData
 
 class AddCoinViewModel: ObservableObject {
     
-    @Published var coins = [Coin]()
+    @Published var coins = [CoinOfCMC]()
     
-    @Published var selected = Coin(id: "1", name: "Bitcoin", rank: 1, slug: "bitcoin", symbol: "BTC")
+    @Published var selected = CoinOfCMC(id: "1", name: "Bitcoin", rank: 1, slug: "bitcoin", symbol: "BTC")
     @Published var ticker = "btc"
     @Published var amount = ""
     @Published var searchText = ""
     
-    var searchResults: [Coin] {
+    var searchResults: [CoinOfCMC] {
            if searchText.isEmpty {
                return coins
            } else {

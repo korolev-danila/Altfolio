@@ -2,50 +2,27 @@
 //  CoinModel.swift
 //  Altfolio
 //
-//  Created by Данила on 31.08.2022.
+//  Created by Данила on 07.11.2022.
 //
 
 import Foundation
 
-struct Coin: Codable, Identifiable, Hashable {
+class Coin: ObservableObject, Identifiable {
     
     let id: String
     let name: String
-    let rank: Int
-    let slug: String
     let symbol: String
-    var logoUrl: String = ""
+    let logoUrl: String
     
-    init?(json: [String: Any]) {
-        
-        let id = json["id"] as! Int
-        let name = json["name"] as! String
-        let rank = json["rank"] as! Int
-        let slug = json["slug"] as! String
-        let symbol = json["symbol"] as! String
-        
-        self.id = "\(id)"
-        self.name = name
-        self.rank = rank
-        self.slug = slug
-        self.symbol = symbol
+    @Published var amount: Double
+    @Published var price: Double
     
-    }
-    
-    init(id: String, name: String, rank: Int, slug: String, symbol: String) {
-        
+    init(id: String, name: String, symbol: String, logoUrl: String, amount: Double, price: Double) {
         self.id = id
         self.name = name
-        self.rank = rank
-        self.slug = slug
         self.symbol = symbol
-   
-    }
-    
-    static func getArray(from jsonArray: Any) -> [Coin]? {
-        
-        guard let jsonArray = jsonArray as? Array<[String: Any]> else { return nil}
-        
-        return jsonArray.compactMap { Coin(json: $0)}
+        self.logoUrl = logoUrl
+        self.amount = amount
+        self.price = price
     }
 }

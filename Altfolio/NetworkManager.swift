@@ -19,7 +19,7 @@ class NetworkManager {
     
     private init() {}
     
-    func fetchMap( completion: @escaping (_ coins: [Coin]) -> ()) {
+    func fetchMap( completion: @escaping (_ coins: [CoinOfCMC]) -> ()) {
         let urlBasic = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map"
         let parameters: Parameters = [
             "start" : "1",
@@ -27,15 +27,17 @@ class NetworkManager {
         ]
         
         guard let url = URL(string: urlBasic) else { return }
-        AF.request(url, parameters: parameters, headers: headers).responseJSON { (response) in
+        
+        
+        AF.request(url, parameters: parameters, headers: headers).responseJSON { response in
             switch response.result {
             case .success(let value):
-                      
+                
                 guard let responts = value as? NSDictionary else { return }
                 guard let data = responts.object(forKey: "data") else { return }
                 
-                var coins = [Coin]()
-                coins = Coin.getArray(from: data)!
+                var coins = [CoinOfCMC]()
+                coins = CoinOfCMC.getArray(from: data)!
                 
                 completion(coins)
                 
@@ -57,6 +59,7 @@ class NetworkManager {
         AF.request(url, parameters: parameters, headers: headers).responseJSON { (response) in
             switch response.result {
             case .success(let value):
+                
                 guard let responts = value as? NSDictionary else { return }
                 guard let data = responts.object(forKey: "data") as? NSDictionary else { return }
                 guard let idData = data.object(forKey: id) as? NSDictionary else { return }
@@ -64,6 +67,7 @@ class NetworkManager {
                 
                 let arrStr = [string]
                 completion(arrStr)
+                
             case .failure(let error):
                 print(error)
             }
@@ -77,7 +81,7 @@ class NetworkManager {
             "id" : idString ,
             "aux" : "logo"
         ]
-
+        
         guard let url = URL(string: url) else { return }
         AF.request(url, parameters: parameters, headers: headers).responseJSON { (response) in
             
@@ -109,6 +113,7 @@ class NetworkManager {
             switch response.result {
             case .success(let data):
                 completion(data)
+                
             case .failure(let error):
                 print(error)
             }
@@ -121,7 +126,7 @@ class NetworkManager {
         let parameters: Parameters = [
             "id" : idString
         ]
-
+        
         guard let url = URL(string: url) else { return }
         AF.request(url, parameters: parameters, headers: headers).responseJSON { (response) in
             
@@ -129,9 +134,9 @@ class NetworkManager {
             case .success(let value):
                 guard let responts = value as? NSDictionary else { return }
                 guard let data = responts.object(forKey: "data") as? NSDictionary else { return }
-
+                
                 var dict = [String:Double]()
-
+                
                 for id in idArray {
                     guard let idData = data.object(forKey: id) as? NSDictionary else { return }
                     guard let quote = idData.object(forKey: "quote") as? NSDictionary else { return }
@@ -140,6 +145,7 @@ class NetworkManager {
                     dict[id] = price
                 }
                 completion(dict)
+                
             case .failure(let error):
                 print("Request failed with error \(error)")
             }

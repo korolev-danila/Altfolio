@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-var coinMok = Coin(json: ["id" : "1", "name": "Name", "rank": 1, "slug":"bitcoin", "symbol": "BTC"])!
+var coinMok = CoinOfCMC(json: ["id" : "1", "name": "Name", "rank": 1, "slug":"bitcoin", "symbol": "BTC"])!
 //coinMok.id = "1"
 //coinMok.name = "name"
 //coinMok.rank = 1
@@ -16,7 +16,7 @@ var coinMok = Coin(json: ["id" : "1", "name": "Name", "rank": 1, "slug":"bitcoin
 
 struct SearchCell: View {
     
-    var coin: Coin
+    var coin: CoinOfCMC
     
     var body: some View {
         HStack {

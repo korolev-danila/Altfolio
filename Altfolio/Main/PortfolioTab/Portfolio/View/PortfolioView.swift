@@ -14,14 +14,6 @@ struct PortfolioView: View {
     
     var showAddCoin: () -> () = { }
     
-    var totalValue: Int {
-        var total: Double = 0.0
-        for coin in viewModel.coins {
-            total += coin.price
-        }
-        return Int(total)
-    }
-    
     init(viewModel: PortfolioViewModel) {
         self.viewModel = viewModel
     }
@@ -37,7 +29,7 @@ struct PortfolioView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading , spacing: 5.0) {
-                TotalBalance(balance: totalValue)
+                TotalBalance(balance: viewModel.totalBalance)
                     .padding(.leading, 15)
                     .padding(.trailing, 15)
                 List() {
@@ -48,12 +40,19 @@ struct PortfolioView: View {
                     } else {
                         Text("Tracking list")
                         .frame(maxWidth: .infinity, alignment: .center)  }
-                    ForEach(self.viewModel.coins, id: \.self) { obj in
+                    ForEach(self.viewModel.coins) { obj in
                         PortfolioCell(object: obj)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                print(obj.name)
+                                print(obj.price)
+                                print(obj.amount)
+                                print(viewModel.coinsCD.filter{ $0.symbol == obj.symbol }.first ?? "nill coinsCD")
+                            }
                     }
                 }.listStyle( .plain )
                     .refreshable {
-                        viewModel.updatePrice()
+                      //  viewModel.updatePrice()
                     }
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {

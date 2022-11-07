@@ -27,9 +27,9 @@ class PortfolioCoordinator: Coordinator {
     
     func start() {
         
-        
-        viewModel.fetchMyCoins()
-        viewModel.updatePrice()
+    //    viewModel.resetAllRecords()
+         viewModel.fetchMyCoins()
+         viewModel.updateAllPrice()
         
         rootViewController.setViewControllers( [UIHostingController(rootView: portfolioView)] , animated: true)
         
@@ -77,7 +77,7 @@ class PortfolioCoordinator: Coordinator {
         rootViewController.pushViewController(UIHostingController(rootView: addCoinView), animated: true)
     }
     
-    func save(coin: Coin, amount: String) {
+    func save(coin: CoinOfCMC, amount: String) {
         print("save coin")
         viewModel.save(coin: coin,amount: amount)
         rootViewController.popViewController(animated: true)
