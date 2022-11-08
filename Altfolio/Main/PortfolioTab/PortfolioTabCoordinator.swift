@@ -129,6 +129,8 @@ class PortfolioCoordinator: Coordinator {
     
     func dismissDetails() {
         print("pop Details")
+        viewModel.updateTotalBalance()
         rootViewController.popViewController(animated: true)
+        
     }
 }

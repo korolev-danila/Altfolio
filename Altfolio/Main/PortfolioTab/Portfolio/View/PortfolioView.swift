@@ -53,9 +53,9 @@ struct PortfolioView: View {
                             }
                     }
                 }.listStyle( .plain )
-                    .refreshable {
+                 //   .refreshable {
                       //  viewModel.updatePrice()
-                    }
+                //    }
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading ) {
