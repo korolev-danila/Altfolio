@@ -123,7 +123,7 @@ class PortfolioCoordinator: Coordinator {
         }
         
         detailsView.popDetailsWithDelete = { [weak self] in
-            self?.viewModel.deleteCoin(coin,coinCD)
+            self?.viewModel.deleteCoin(coinCD)
             self?.dismissDetails()
         }
         

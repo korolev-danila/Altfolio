@@ -34,7 +34,7 @@ class PortfolioViewModel: ObservableObject {
         
         do {
             coinsCD = try context.fetch(fetchRequest)
-            
+            coins.removeAll()
             for coin in coinsCD {
                 coins.append(initCoin(coin))
             }
@@ -99,15 +99,13 @@ class PortfolioViewModel: ObservableObject {
         }
     }
     
-    func deleteCoin(_ coin: Coin,_ coinCD: CoinCD) {
+    func deleteCoin(_ coinCD: CoinCD) {
         
         context.delete(coinCD)
         
         do {
             try context.save()
-            if let index = coins.firstIndex(of: coin ) {
-                coins.remove(at: index)
-            }
+            self.fetchMyCoins()
         } catch let error as NSError {
             print(error.localizedDescription)
         }

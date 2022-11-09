@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Coin: ObservableObject, Identifiable, Equatable {
+class Coin: ObservableObject, Identifiable {
     
     
     let id: String
@@ -27,7 +27,7 @@ class Coin: ObservableObject, Identifiable, Equatable {
         self.price = price
     }
     
-    static func == (lhs: Coin, rhs: Coin) -> Bool {
-        lhs.symbol == rhs.symbol
-    }
+//    static func == (lhs: Coin, rhs: Coin) -> Bool {
+//        lhs.symbol == rhs.symbol
+//    }
 }
