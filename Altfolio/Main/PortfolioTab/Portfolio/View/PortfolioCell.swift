@@ -27,12 +27,24 @@ struct PortfolioCell: View {
                 HStack {
                     Text(object.symbol )
                         .font(.title)
+                        .scaledToFill()
+                        .lineLimit(1)
+                        .minimumScaleFactor(5)
                     Text(object.name )
+                        .scaledToFill()
+                        .lineLimit(1)
+                        .minimumScaleFactor(1)
                 }
                 Text(removeZerosFromEnd(object.amount))
+                    .scaledToFill()
+                    .minimumScaleFactor(0.0005)
+                    .lineLimit(1)
             }
             Spacer()
             Text(String(format: "%.2f", (object.price * object.amount)) + "$")
+                .font(.title3)
+                .minimumScaleFactor(0.5)
+                .lineLimit(1)
         }
         .frame( height: 85)
     }

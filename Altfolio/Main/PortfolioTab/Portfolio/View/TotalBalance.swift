@@ -28,6 +28,8 @@ struct TotalBalance: View {
                 Text("\(balance)$")
                     .foregroundColor(.white)
                     .font(.system(size: 45, weight: .bold, design: .default))
+                    .minimumScaleFactor(0.005)
+                    .lineLimit(1)
                    // .padding(.top)
             }
             .padding(.leading)

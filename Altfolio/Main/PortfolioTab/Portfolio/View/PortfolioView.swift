@@ -48,7 +48,6 @@ struct PortfolioView: View {
                         PortfolioCell(object: obj)
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                print(obj.id)
                                 showDetails(obj)
                             }
                     }
