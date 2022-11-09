@@ -31,6 +31,11 @@ struct DetailsView: View {
         popDetails()
     }
     
+    var popDetailsWithDelete: () -> () = { }
+    private func popAndDelete() {
+        popDetailsWithDelete()
+    }
+    
     var body: some View {
         NavigationView {
             
@@ -100,12 +105,11 @@ struct DetailsView: View {
                     
                 }
             }
-                
-            
+
                 .alert("Warning", isPresented: $presentAlert, actions: {
                     
                     Button("Accept", action: {
-                        print($viewModel.value)
+                        popAndDelete()
                     })
                     Button("Cancel", role: .cancel, action: {})
                 }, message: {

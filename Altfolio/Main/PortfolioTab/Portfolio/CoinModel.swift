@@ -7,7 +7,8 @@
 
 import Foundation
 
-class Coin: ObservableObject, Identifiable {
+class Coin: ObservableObject, Identifiable, Equatable {
+    
     
     let id: String
     let name: String
@@ -24,5 +25,9 @@ class Coin: ObservableObject, Identifiable {
         self.logoUrl = logoUrl
         self.amount = amount
         self.price = price
+    }
+    
+    static func == (lhs: Coin, rhs: Coin) -> Bool {
+        lhs.symbol == rhs.symbol
     }
 }

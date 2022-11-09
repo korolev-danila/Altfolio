@@ -22,19 +22,18 @@ class PortfolioCoordinator: Coordinator {
         rootViewController.navigationBar.isHidden = true
         
         viewModel = PortfolioViewModel()
-      //  rootViewController.delegate = self
     }
     
     func start() {
         
-    //    viewModel.resetAllRecords()
-         viewModel.fetchMyCoins()
-         viewModel.updateAllPrice()
+        //    viewModel.resetAllRecords()
+        viewModel.fetchMyCoins()
+        viewModel.updateAllPrice()
         
         rootViewController.setViewControllers( [UIHostingController(rootView: portfolioView)] , animated: true)
         
         DispatchQueue.main.async {
-            NetworkManager.shared.fetchMap { coins in               
+            NetworkManager.shared.fetchMap { coins in
                 self.viewModel.coinsMap = coins
                 self.viewModel.updateURL()
             }
@@ -43,7 +42,7 @@ class PortfolioCoordinator: Coordinator {
     
     lazy var portfolioView: PortfolioView = {
         var view = PortfolioView(viewModel: viewModel)
-         
+        
         view.showAddCoin = { [weak self] in
             self?.showAddCoin()
         }
@@ -113,7 +112,7 @@ class PortfolioCoordinator: Coordinator {
     
     func showDetails(coin: Coin) {
         print("!!!coordinator showDetails")
-        guard let coinCD = viewModel.coinsCD.filter({ $0.name == coin.name }).first else {print("error guard"); return }
+        guard let coinCD = viewModel.coinsCD.filter({ $0.symbol == coin.symbol }).first else {print("error guard"); return }
         
         let detailsVM = DetailsViewModel(coin: coin ,coinCD: coinCD)
         
@@ -123,14 +122,18 @@ class PortfolioCoordinator: Coordinator {
             self?.dismissDetails()
         }
         
+        detailsView.popDetailsWithDelete = { [weak self] in
+            self?.viewModel.deleteCoin(coin,coinCD)
+            self?.dismissDetails()
+        }
+        
         rootViewController.pushViewController(UIHostingController(rootView: detailsView), animated: true)
-
+        
     }
     
     func dismissDetails() {
         print("pop Details")
         viewModel.updateTotalBalance()
         rootViewController.popViewController(animated: true)
-        
     }
 }

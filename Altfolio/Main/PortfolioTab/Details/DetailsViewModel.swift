@@ -13,7 +13,7 @@ class DetailsViewModel: ObservableObject {
     
     var coin: Coin
     var coinCD: CoinCD
-
+    
     @Published var value: String = ""
     
     let context: NSManagedObjectContext = {

@@ -48,7 +48,7 @@ class PortfolioViewModel: ObservableObject {
         
         return coin
     }
-
+    
     func resetAllRecords() {
         
         let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "CoinCD")
@@ -99,6 +99,20 @@ class PortfolioViewModel: ObservableObject {
         }
     }
     
+    func deleteCoin(_ coin: Coin,_ coinCD: CoinCD) {
+        
+        context.delete(coinCD)
+        
+        do {
+            try context.save()
+            if let index = coins.firstIndex(of: coin ) {
+                coins.remove(at: index)
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
+    
     // MARK: - update totalBalance
     func updateTotalBalance() {
         var total: Double = 0.0
@@ -130,7 +144,7 @@ class PortfolioViewModel: ObservableObject {
         var idArray = [String]()
         var idString = ""
         for (index,coin) in self.coins.enumerated() {
-          //  if coin.id == nil { return }
+            //  if coin.id == nil { return }
             idArray.append(coin.id)
             if index == 0 {
                 idString += coin.id
