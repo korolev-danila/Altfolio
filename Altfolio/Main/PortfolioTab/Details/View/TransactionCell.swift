@@ -11,6 +11,8 @@ struct TransactionCell: View {
     
     var trans: Transaction
     
+    var symbol: String
+    
     func removeZerosFromEnd(_ value: Double) -> String {
             let formatter = NumberFormatter()
             let number = NSNumber(value: value)
@@ -21,14 +23,15 @@ struct TransactionCell: View {
     
     var body: some View {
         HStack {
-            Text(trans.dateW)
-            
+            Text(trans.dateW).padding(.leading , 20.0)
             Spacer()
-            
             Text(
-                (trans.addBool ? "+" : "-") + removeZerosFromEnd(trans.amount) + "$"
+                (trans.addBool ? "+" : "-") + removeZerosFromEnd(trans.amount) + " " + symbol
             )
-        }
+                .foregroundColor(trans.addBool ? .green : .red)
+                .padding(.trailing , 20.0)
+            
+        }.padding()
     }
 }
 

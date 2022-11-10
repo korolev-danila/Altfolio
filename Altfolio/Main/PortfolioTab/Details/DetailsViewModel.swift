@@ -11,8 +11,11 @@ import UIKit
 
 class DetailsViewModel: ObservableObject {
     
-    var coin: Coin
-    var coinCD: CoinCD
+    @Published var coin: Coin
+    @Published var coinCD: CoinCD
+    @Published var history: Array<Transaction>
+        
+    
     
     @Published var value: String = ""
     
@@ -25,6 +28,7 @@ class DetailsViewModel: ObservableObject {
     init(coin: Coin,coinCD: CoinCD) {
         self.coin = coin
         self.coinCD = coinCD
+        self.history  = coinCD.historyArray
     }
     
     func saveValue(addBool: Bool) {
@@ -39,6 +43,14 @@ class DetailsViewModel: ObservableObject {
         }
         
         do {
+            guard let entity = NSEntityDescription.entity(forEntityName: "Transaction", in: context) else { return }
+            let trans = Transaction(entity: entity , insertInto: context)
+            trans.date = Date()
+            trans.amount = amount
+            trans.addBool = addBool
+            coinCD.addToHistory(trans)
+            self.history  = coinCD.historyArray
+            
             try context.save()
         } catch let error as NSError {
             print(error.localizedDescription)

@@ -25,7 +25,7 @@ extension Transaction {
         let dateForm = DateFormatter()
         let d = date ?? Date()
         
-        dateForm.dateFormat = "dd/MM/YY"
+        dateForm.dateFormat = "dd/MM/YY - HH:mm:ss"
         
         return dateForm.string(from: d)
         

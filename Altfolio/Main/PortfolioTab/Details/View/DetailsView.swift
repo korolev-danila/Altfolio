@@ -90,8 +90,8 @@ struct DetailsView: View {
                 ScrollView() {
                     VStack{
                         Text("History transaction")
-                        ForEach(viewModel.coinCD.historyArray) { trans in
-                            TransactionCell(trans: trans)
+                        ForEach(viewModel.history) { trans in
+                            TransactionCell(trans: trans, symbol: viewModel.coinCD.symbolW )
                         }
                     }.padding(.bottom, 30)
                     
