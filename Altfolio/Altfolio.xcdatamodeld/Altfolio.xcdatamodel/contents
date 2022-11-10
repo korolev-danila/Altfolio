@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19206" systemVersion="21G83" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="CoinCD" representedClassName="CoinCD" syncable="YES" codeGenerationType="class">
+    <entity name="CoinCD" representedClassName="CoinCD" syncable="YES">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="String"/>
         <attribute name="logoUrl" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="price" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="symbol" attributeType="String"/>
+        <relationship name="history" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="relationship" inverseEntity="Transaction"/>
+    </entity>
+    <entity name="Transaction" representedClassName="Transaction" syncable="YES">
+        <attribute name="addBool" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoinCD" inverseName="history" inverseEntity="CoinCD"/>
     </entity>
     <elements>
-        <element name="CoinCD" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="CoinCD" positionX="-63" positionY="-18" width="128" height="134"/>
+        <element name="Transaction" positionX="-63" positionY="27" width="128" height="89"/>
     </elements>
 </model>

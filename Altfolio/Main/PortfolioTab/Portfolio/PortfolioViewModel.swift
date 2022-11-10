@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 import UIKit
+import SwiftUI
 
 class PortfolioViewModel: ObservableObject {
     
@@ -44,7 +45,7 @@ class PortfolioViewModel: ObservableObject {
     }
     
     func initCoin(_ coin: CoinCD) -> Coin {
-        let coin = Coin(id: coin.id ?? "1", name: coin.name ?? "", symbol: coin.symbol ?? "", logoUrl: coin.logoUrl ?? "", amount: coin.amount , price: coin.price)
+        let coin = Coin(id: coin.idW, name: coin.nameW, symbol: coin.symbolW , logoUrl: coin.logoUrlW , amount: coin.amount , price: coin.price)
         
         return coin
     }
@@ -71,6 +72,14 @@ class PortfolioViewModel: ObservableObject {
             do {
                 coins.filter{ $0.symbol == coin.symbol }.first?.amount += value
                 coinsCD.filter{ $0.symbol == coin.symbol }.first?.amount += value
+                
+                guard let entity = NSEntityDescription.entity(forEntityName: "Transaction", in: context) else { return }
+                let trans = Transaction(entity: entity , insertInto: context)
+                trans.date = Date()
+                trans.amount = value
+                trans.addBool = true
+                coinsCD.filter{ $0.symbol == coin.symbol }.first?.addToHistory(trans)
+                
                 updateTotalBalance()
                 try context.save()
                 print("save old coin")

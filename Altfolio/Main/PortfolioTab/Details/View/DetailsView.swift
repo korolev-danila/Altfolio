@@ -13,12 +13,11 @@ struct DetailsView: View {
     
     @State private var presentAlert = false
     @State private var addOrRemove = true
-    var arr = [Coin]()
+
     
     init(viewModel: DetailsViewModel) {
         self.viewModel = viewModel
-        
-        arr = [viewModel.coin,viewModel.coin,viewModel.coin]
+
     }
     
     var saveCoin: () -> () = { }
@@ -91,8 +90,8 @@ struct DetailsView: View {
                 ScrollView() {
                     VStack{
                         Text("History transaction")
-                        ForEach(arr) { coin in
-                            DetailsCell(object: coin)
+                        ForEach(viewModel.coinCD.historyArray) { trans in
+                            TransactionCell(trans: trans)
                         }
                     }.padding(.bottom, 30)
                     
