@@ -8,7 +8,7 @@
 import XCTest
 @testable import Altfolio
 
-class PortfolioCoordinatorTests: XCTestCase {
+class PortfolioCoordinatorTest: XCTestCase {
 
     var sup: PortfolioCoordinator!
     

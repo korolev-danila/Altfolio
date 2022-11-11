@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AnalyticsView: View {
     
+    var viewModel: AnalyticsViewModel
 
     
     var body: some View {
@@ -16,11 +17,5 @@ struct AnalyticsView: View {
             .ignoresSafeArea()
         
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct AnalyticsView_Previews: PreviewProvider {
-    static var previews: some View {
-        AnalyticsView()
     }
 }

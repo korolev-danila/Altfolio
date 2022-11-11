@@ -23,10 +23,16 @@ class AnalyticsCoordinator: Coordinator {
         rootViewController.isNavigationBarHidden = false
         viewModel = AnalyticsViewModel()
     }
+    
+    lazy var analyticsView: AnalyticsView = {
+        var view = AnalyticsView(viewModel: viewModel)
+        
+        return view
+    }()
 
     func start() {
 
-        let view = AnalyticsView()
-        rootViewController.setViewControllers( [UIHostingController(rootView: view)] , animated: true)
+
+        rootViewController.setViewControllers( [UIHostingController(rootView: analyticsView)] , animated: true)
     }
 }
