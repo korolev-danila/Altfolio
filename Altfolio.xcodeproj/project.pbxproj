@@ -203,16 +203,10 @@
 		837B2D6828BA4BA7009A5888 /* Altfolio */ = {
 			isa = PBXGroup;
 			children = (
-				837B2D6928BA4BA7009A5888 /* AppDelegate.swift */,
-				837B2D6B28BA4BA7009A5888 /* SceneDelegate.swift */,
-				837B2D9F28BA4C41009A5888 /* ApplicationCoordinator.swift */,
-				83893E2D28BE6FA00076AC32 /* NetworkManager.swift */,
+				83CFBC1529254EB5001FF864 /* Application */,
 				837B2DA328BA4D1F009A5888 /* Main */,
 				837B2D9E28BA4C07009A5888 /* Protocols */,
-				837B2D7528BA4BAC009A5888 /* Assets.xcassets */,
-				837B2D7728BA4BAC009A5888 /* LaunchScreen.storyboard */,
-				837B2D7A28BA4BAC009A5888 /* Info.plist */,
-				837B2D7228BA4BA8009A5888 /* Altfolio.xcdatamodeld */,
+				83CFBC1629254EDF001FF864 /* Resources */,
 			);
 			path = Altfolio;
 			sourceTree = "<group>";
@@ -246,11 +240,9 @@
 		837B2DA328BA4D1F009A5888 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				83F697BC291D56FB00B955CD /* Transaction+CoreDataClass.swift */,
-				83F697BD291D56FB00B955CD /* Transaction+CoreDataProperties.swift */,
-				83F697BE291D56FB00B955CD /* CoinCD+CoreDataClass.swift */,
-				83F697BF291D56FB00B955CD /* CoinCD+CoreDataProperties.swift */,
+				83CFBC1729254FC2001FF864 /* CoreData */,
 				837B2DA428BA4D44009A5888 /* MainCoordinator.swift */,
+				83893E2D28BE6FA00076AC32 /* NetworkManager.swift */,
 				837B2DA828BA4E2E009A5888 /* PortfolioTab */,
 				837B2DB628BA897A009A5888 /* AnalyticsTab */,
 			);
@@ -327,6 +319,38 @@
 				836546D8291EC45B0083DFC7 /* AnaliticsTabTest */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		83CFBC1529254EB5001FF864 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				837B2D6928BA4BA7009A5888 /* AppDelegate.swift */,
+				837B2D6B28BA4BA7009A5888 /* SceneDelegate.swift */,
+				837B2D9F28BA4C41009A5888 /* ApplicationCoordinator.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		83CFBC1629254EDF001FF864 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				837B2D7528BA4BAC009A5888 /* Assets.xcassets */,
+				837B2D7728BA4BAC009A5888 /* LaunchScreen.storyboard */,
+				837B2D7A28BA4BAC009A5888 /* Info.plist */,
+				837B2D7228BA4BA8009A5888 /* Altfolio.xcdatamodeld */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		83CFBC1729254FC2001FF864 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				83F697BC291D56FB00B955CD /* Transaction+CoreDataClass.swift */,
+				83F697BD291D56FB00B955CD /* Transaction+CoreDataProperties.swift */,
+				83F697BE291D56FB00B955CD /* CoinCD+CoreDataClass.swift */,
+				83F697BF291D56FB00B955CD /* CoinCD+CoreDataProperties.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		83DF662B291956D50032C7D9 /* Details */ = {
@@ -801,7 +825,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Altfolio/Info.plist;
+				INFOPLIST_FILE = Altfolio/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -828,7 +852,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Altfolio/Info.plist;
+				INFOPLIST_FILE = Altfolio/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
