@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct PortfolioView: View {
     
     @ObservedObject var viewModel: PortfolioViewModel
@@ -16,15 +15,10 @@ struct PortfolioView: View {
         self.viewModel = viewModel
     }
     
-//    init() {
-//        self.viewModel = PortfolioViewModel()
-//    }
-    
     var showAddCoin: () -> () = { }
     private func addItem() {
         showAddCoin()
     }
-    
     var showDetails: (Coin) -> () = { _ in }
     private func showDetail(_ coin: Coin) {
         showDetails(coin)
@@ -36,6 +30,7 @@ struct PortfolioView: View {
                 TotalBalance(balance: viewModel.totalBalance)
                     .padding(.leading, 15)
                     .padding(.trailing, 15)
+                
                 List() {
                     if #available(iOS 15.0, *) {
                         Text("Tracking list")
@@ -43,20 +38,17 @@ struct PortfolioView: View {
                             .listRowSeparator(.hidden)
                     } else {
                         Text("Tracking list")
-                        .frame(maxWidth: .infinity, alignment: .center)  }
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
                     ForEach(self.viewModel.coins) { obj in
                         PortfolioCell(object: obj)
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                print("!!!!$$$$!!!!!")
                                 print(obj.amount)
                                 showDetails(obj)
                             }
                     }
                 }.listStyle( .plain )
-                 //   .refreshable {
-                      //  viewModel.updatePrice()
-                //    }
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading ) {
@@ -75,7 +67,6 @@ struct PortfolioView: View {
 }
 
 struct PortfolioView_Previews: PreviewProvider {
-    
     static var previews: some View {
         PortfolioView(viewModel: PortfolioViewModel())
     }

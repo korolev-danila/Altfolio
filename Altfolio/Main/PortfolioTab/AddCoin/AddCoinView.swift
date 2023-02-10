@@ -15,17 +15,14 @@ struct AddCoinView: View {
     private func pop() {
         popAddCoin()
     }
-    
     var saveCoin: () -> () = { }
     private func save() {
         saveCoin()
     }
-    
     var pushSearch: () -> () = { }
     private func pushModal() {
         pushSearch()
     }
-    
     
     var body: some View {
         NavigationView {
@@ -78,7 +75,6 @@ struct AddCoinView: View {
                     }
                 }
         }
-        
     }
 }
 

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		52ABA785B86C13D1304C23D3 /* Pods_Altfolio_AltfolioUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 723308F11CD5E98A0FF96908 /* Pods_Altfolio_AltfolioUITests.framework */; };
 		83067D8928BFBB33004AC4CE /* CoinOfCMCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83067D8828BFBB33004AC4CE /* CoinOfCMCModel.swift */; };
+		834F7E052996A7A600B39244 /* ExtensionSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834F7E042996A7A600B39244 /* ExtensionSwiftUI.swift */; };
 		836546D6291EB0F20083DFC7 /* AnalyticsCoordinatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836546D5291EB0F20083DFC7 /* AnalyticsCoordinatorTest.swift */; };
 		837B2D6A28BA4BA7009A5888 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837B2D6928BA4BA7009A5888 /* AppDelegate.swift */; };
 		837B2D6C28BA4BA7009A5888 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837B2D6B28BA4BA7009A5888 /* SceneDelegate.swift */; };
@@ -72,6 +73,7 @@
 		4BD075FEB0161AA9678D1661 /* Pods_AltfolioTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AltfolioTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		723308F11CD5E98A0FF96908 /* Pods_Altfolio_AltfolioUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Altfolio_AltfolioUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83067D8828BFBB33004AC4CE /* CoinOfCMCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinOfCMCModel.swift; sourceTree = "<group>"; };
+		834F7E042996A7A600B39244 /* ExtensionSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionSwiftUI.swift; sourceTree = "<group>"; };
 		836546D5291EB0F20083DFC7 /* AnalyticsCoordinatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsCoordinatorTest.swift; sourceTree = "<group>"; };
 		837B2D6628BA4BA7009A5888 /* Altfolio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Altfolio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		837B2D6928BA4BA7009A5888 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -162,6 +164,23 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		834F7E032996A75600B39244 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				834F7E042996A7A600B39244 /* ExtensionSwiftUI.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		834F7E062996A96D00B39244 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				83CFBC1729254FC2001FF864 /* CoreData */,
+				83893E2D28BE6FA00076AC32 /* NetworkManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		836546D7291EB1130083DFC7 /* PortfolioTabTest */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,11 +259,11 @@
 		837B2DA328BA4D1F009A5888 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				83CFBC1729254FC2001FF864 /* CoreData */,
 				837B2DA428BA4D44009A5888 /* MainCoordinator.swift */,
-				83893E2D28BE6FA00076AC32 /* NetworkManager.swift */,
 				837B2DA828BA4E2E009A5888 /* PortfolioTab */,
 				837B2DB628BA897A009A5888 /* AnalyticsTab */,
+				834F7E062996A96D00B39244 /* Managers */,
+				834F7E032996A75600B39244 /* Extension */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -633,6 +652,7 @@
 				837B2DAF28BA4F9B009A5888 /* PortfolioCell.swift in Sources */,
 				837B2D6A28BA4BA7009A5888 /* AppDelegate.swift in Sources */,
 				837B2D9D28BA4C02009A5888 /* CoordinatorProtocol.swift in Sources */,
+				834F7E052996A7A600B39244 /* ExtensionSwiftUI.swift in Sources */,
 				837B2D6C28BA4BA7009A5888 /* SceneDelegate.swift in Sources */,
 				83DF662D291957130032C7D9 /* DetailsViewModel.swift in Sources */,
 				837B2DBA28BA8DD6009A5888 /* AnalyticsViewModel.swift in Sources */,

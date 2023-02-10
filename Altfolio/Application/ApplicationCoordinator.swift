@@ -5,25 +5,23 @@
 //  Created by Данила on 27.08.2022.
 //
 
-import SwiftUI
 import UIKit
 
-class ApplicationCoordinator: Coordinator {
+final class ApplicationCoordinator {
     
     let window: UIWindow
-    
-    var childCoordinator = [Coordinator]()
+    private var childCoordinator = [CoordinatorProtocol]()
     
     init(window: UIWindow) {
-        
         self.window = window
     }
-    
+}
+
+extension ApplicationCoordinator: CoordinatorProtocol {
     func start() {
-        
         let mainCoordinator = MainCoordinator()
         mainCoordinator.start()
-        self.childCoordinator = [mainCoordinator]
-        self.window.rootViewController = mainCoordinator.rootViewController
+        childCoordinator = [mainCoordinator]
+        window.rootViewController = mainCoordinator.rootViewController
     }
 }

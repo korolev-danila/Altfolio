@@ -8,31 +8,28 @@
 import UIKit
 import SwiftUI
 
-class AnalyticsCoordinator: Coordinator {
-    
+class AnalyticsCoordinator {
     
     var rootViewController: UINavigationController
+    private var viewModel: AnalyticsViewModel
     
-    var viewModel: AnalyticsViewModel
+    private lazy var analyticsView: AnalyticsView = {
+        var view = AnalyticsView(viewModel: viewModel)
+        return view
+    }()
     
-    public init() {
-        
+    init() {
         rootViewController = UINavigationController()
         rootViewController.navigationBar.backgroundColor = .blue
         rootViewController.navigationBar.prefersLargeTitles = false
         rootViewController.isNavigationBarHidden = false
         viewModel = AnalyticsViewModel()
     }
-    
-    lazy var analyticsView: AnalyticsView = {
-        var view = AnalyticsView(viewModel: viewModel)
-        
-        return view
-    }()
+}
 
+// MARK: - CoordinatorProtocol
+extension AnalyticsCoordinator: CoordinatorProtocol {
     func start() {
-
-
         rootViewController.setViewControllers( [UIHostingController(rootView: analyticsView)] , animated: true)
     }
 }

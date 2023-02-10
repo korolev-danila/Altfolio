@@ -39,7 +39,6 @@ struct SearchView: View {
                         popSearchView()
                     }
             }.listStyle(PlainListStyle())
-            
         }
     }
 }

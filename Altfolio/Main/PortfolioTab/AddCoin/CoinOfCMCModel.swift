@@ -29,23 +29,18 @@ struct CoinOfCMC: Codable, Identifiable, Hashable {
         self.rank = rank
         self.slug = slug
         self.symbol = symbol
-    
     }
     
     init(id: String, name: String, rank: Int, slug: String, symbol: String) {
-        
         self.id = id
         self.name = name
         self.rank = rank
         self.slug = slug
         self.symbol = symbol
-   
     }
     
     static func getArray(from jsonArray: Any) -> [CoinOfCMC]? {
-        
         guard let jsonArray = jsonArray as? Array<[String: Any]> else { return nil}
-        
         return jsonArray.compactMap { CoinOfCMC(json: $0)}
     }
 }

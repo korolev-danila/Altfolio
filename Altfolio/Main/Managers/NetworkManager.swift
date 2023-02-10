@@ -14,7 +14,7 @@ class NetworkManager {
     
     let headers: HTTPHeaders = [
         "Accepts": "application/json",
-        "X-CMC_PRO_API_KEY": "e90479d1-ff9e-4551-85bc-fb25b4863739" // use CoinMarketCap api key
+        "X-CMC_PRO_API_KEY": "e90479d1-ff9e-4551-85bc-fb25b4863739" /// use CoinMarketCap api key
     ]
     
     private init() {}

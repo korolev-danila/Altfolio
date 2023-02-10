@@ -9,17 +9,8 @@ import SwiftUI
 
 struct TransactionCell: View {
     
-    var trans: Transaction
-    
-    var symbol: String
-    
-    func removeZerosFromEnd(_ value: Double) -> String {
-            let formatter = NumberFormatter()
-            let number = NSNumber(value: value)
-            formatter.minimumFractionDigits = 0
-            formatter.maximumFractionDigits = 16
-            return String(formatter.string(from: number) ?? "")
-        }
+    let trans: Transaction
+    let symbol: String
     
     var body: some View {
         HStack {
@@ -28,8 +19,8 @@ struct TransactionCell: View {
             Text(
                 (trans.addBool ? "+" : "-") + removeZerosFromEnd(trans.amount) + " " + symbol
             )
-                .foregroundColor(trans.addBool ? .green : .red)
-                .padding(.trailing , 20.0)
+            .foregroundColor(trans.addBool ? .green : .red)
+            .padding(.trailing , 20.0)
             
         }.padding()
     }

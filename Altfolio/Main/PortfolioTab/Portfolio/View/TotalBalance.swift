@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 let backgroundGradient = LinearGradient(
     colors: [Color.gray, Color.blue],
     startPoint: .leading, endPoint: .trailing)
@@ -18,31 +17,26 @@ struct TotalBalance: View {
     
     var body: some View {
         HStack {
-            
             VStack(alignment: .leading, spacing: 0.0) {
-                
                 Text("Total balance:")
                     .foregroundColor(.white)
                     .font(.title)
-                
                 Text("\(balance)$")
                     .foregroundColor(.white)
                     .font(.system(size: 45, weight: .bold, design: .default))
                     .minimumScaleFactor(0.005)
                     .lineLimit(1)
-                   // .padding(.top)
             }
             .padding(.leading)
             Spacer()
-                
         }
         .frame( height: 115)
         .background(backgroundGradient)
         .cornerRadius(15.0)
         .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(.black, lineWidth: 2)
-            )
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(.black, lineWidth: 2)
+        )
     }
 }
 

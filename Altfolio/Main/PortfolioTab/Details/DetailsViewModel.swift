@@ -14,9 +14,7 @@ class DetailsViewModel: ObservableObject {
     @Published var coin: Coin
     @Published var coinCD: CoinCD
     @Published var history: Array<Transaction>
-        
-    
-    
+
     @Published var value: String = ""
     
     let context: NSManagedObjectContext = {

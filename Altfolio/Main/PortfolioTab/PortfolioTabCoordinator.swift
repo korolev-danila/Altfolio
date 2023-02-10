@@ -7,55 +7,31 @@
 
 import UIKit
 import SwiftUI
-import CoreData
 
-
-class PortfolioCoordinator: Coordinator {
-    
+final class PortfolioCoordinator {
     var rootViewController: UINavigationController
+    private var viewModel: PortfolioViewModel
     
-    var viewModel: PortfolioViewModel
-    
-    public init() {
-        
-        rootViewController = UINavigationController()
-        rootViewController.navigationBar.isHidden = true
-        
-        viewModel = PortfolioViewModel()
-    }
-    
-    func start() {
-        
-        //    viewModel.resetAllRecords()
-        viewModel.fetchMyCoins()
-        viewModel.updateAllPrice()
-        
-        rootViewController.setViewControllers( [UIHostingController(rootView: portfolioView)] , animated: true)
-        
-        DispatchQueue.main.async {
-            NetworkManager.shared.fetchMap { coins in
-                self.viewModel.coinsMap = coins
-                self.viewModel.updateURL()
-            }
-        }
-    }
-    
-    lazy var portfolioView: PortfolioView = {
+    private lazy var portfolioView: PortfolioView = {
         var view = PortfolioView(viewModel: viewModel)
         
         view.showAddCoin = { [weak self] in
             self?.showAddCoin()
         }
-        
         view.showDetails = { [weak self] coin in
             self?.showDetails(coin: coin)
         }
         return view
     }()
     
+    init() {
+        rootViewController = UINavigationController()
+        rootViewController.navigationBar.isHidden = true
+        viewModel = PortfolioViewModel()
+    }
+    
     // MARK: - Navigation AddCoin
-    func showAddCoin() {
-        print("!!!coordinator showAddCoin")
+    private func showAddCoin() {
         let addCoinVM = AddCoinViewModel()
         addCoinVM.coins = viewModel.coinsMap
         
@@ -68,33 +44,26 @@ class PortfolioCoordinator: Coordinator {
         addCoinView.popAddCoin = { [weak self] in
             self?.dismissAddCoin()
         }
-        
         addCoinView.saveCoin = { [weak self] in
             self?.save(coin: addCoinVM.selected, amount: addCoinVM.amount )
         }
-        
         addCoinView.pushSearch = { [weak self] in
             self?.showSearch(viewModel: addCoinView.viewModel)
         }
         rootViewController.pushViewController(UIHostingController(rootView: addCoinView), animated: true)
     }
     
-    func save(coin: CoinOfCMC, amount: String) {
-        print("save coin")
+    private func save(coin: CoinOfCMC, amount: String) {
         viewModel.save(coin: coin,amount: amount)
         rootViewController.popViewController(animated: true)
     }
     
-    func dismissAddCoin() {
-        print("pop addCoin")
+    private func dismissAddCoin() {
         rootViewController.popViewController(animated: true)
     }
     
-    
     // MARK: - Navigation Search
-    func showSearch(viewModel: AddCoinViewModel) {
-        print("push Search")
-        
+    private func showSearch(viewModel: AddCoinViewModel) {
         var searchView = SearchView(viewModel: viewModel)
         searchView.popSearchView = { [weak self] in
             self?.dismissSearch()
@@ -103,37 +72,49 @@ class PortfolioCoordinator: Coordinator {
         rootViewController.showDetailViewController(UIHostingController(rootView: searchView), sender: nil)
     }
     
-    func dismissSearch() {
-        print("pop Search")
+    private func dismissSearch() {
         rootViewController.dismiss(animated: true)
     }
     
     // MARK: - Navigation Details
-    
-    func showDetails(coin: Coin) {
-        print("!!!coordinator showDetails")
+    private func showDetails(coin: Coin) {
         guard let coinCD = viewModel.coinsCD.filter({ $0.symbol == coin.symbol }).first else {print("error guard"); return }
         
         let detailsVM = DetailsViewModel(coin: coin ,coinCD: coinCD)
-        
         var detailsView = DetailsView(viewModel: detailsVM )
         
         detailsView.popDetails = { [weak self] in
             self?.dismissDetails()
         }
-        
         detailsView.popDetailsWithDelete = { [weak self] in
             self?.viewModel.deleteCoin(coinCD)
             self?.dismissDetails()
         }
         
         rootViewController.pushViewController(UIHostingController(rootView: detailsView), animated: true)
-        
     }
     
-    func dismissDetails() {
+    private func dismissDetails() {
         print("pop Details")
         viewModel.updateTotalBalance()
         rootViewController.popViewController(animated: true)
+    }
+}
+
+// MARK: - CoordinatorProtocol
+extension PortfolioCoordinator: CoordinatorProtocol {
+    func start() {
+        //    viewModel.resetAllRecords()
+        viewModel.fetchMyCoins()
+        viewModel.updateAllPrice()
+        
+        rootViewController.setViewControllers( [UIHostingController(rootView: portfolioView)] , animated: true)
+        
+        DispatchQueue.main.async {
+            NetworkManager.shared.fetchMap { coins in
+                self.viewModel.coinsMap = coins
+                self.viewModel.updateURL()
+            }
+        }
     }
 }

@@ -13,11 +13,8 @@ import SwiftUI
 class PortfolioViewModel: ObservableObject {
     
     @Published var coinsMap = [CoinOfCMC]()
-    
     @Published var coinsCD = [CoinCD]()
-    
     @Published var coins = [Coin]()
-    
     @Published var totalBalance: Int = 0
     
     var timer: Timer?
@@ -30,7 +27,6 @@ class PortfolioViewModel: ObservableObject {
     
     // MARK: - CoreData layer
     func fetchMyCoins() {
-        
         let fetchRequest: NSFetchRequest<CoinCD> = CoinCD.fetchRequest()
         
         do {

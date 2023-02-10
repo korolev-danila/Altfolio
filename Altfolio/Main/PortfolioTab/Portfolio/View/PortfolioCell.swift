@@ -11,14 +11,6 @@ struct PortfolioCell: View {
     
     @ObservedObject var object: Coin
     
-    func removeZerosFromEnd(_ value: Double) -> String {
-            let formatter = NumberFormatter()
-            let number = NSNumber(value: value)
-            formatter.minimumFractionDigits = 0
-            formatter.maximumFractionDigits = 16
-            return String(formatter.string(from: number) ?? "")
-        }
-    
     var body: some View {
         HStack {
             AsyncImg(url: object.logoUrl )

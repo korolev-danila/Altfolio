@@ -13,23 +13,20 @@ struct DetailsView: View {
     
     @State private var presentAlert = false
     @State private var addOrRemove = true
-
     
     init(viewModel: DetailsViewModel) {
         self.viewModel = viewModel
-
+        
     }
     
     var saveCoin: () -> () = { }
     private func save() {
         saveCoin()
     }
-    
     var popDetails: () -> () = { }
     private func pop() {
         popDetails()
     }
-    
     var popDetailsWithDelete: () -> () = { }
     private func popAndDelete() {
         popDetailsWithDelete()
@@ -37,7 +34,6 @@ struct DetailsView: View {
     
     var body: some View {
         NavigationView {
-            
             VStack(spacing: 0) {
                 DetailsCell(object: viewModel.coin)
                 
@@ -45,20 +41,18 @@ struct DetailsView: View {
                     TextField("  add amount", text: $viewModel.value)
                         .keyboardType(.numberPad)
                         .contentShape(Rectangle())
-                        .frame(width: 216 ,height: 40.0)
+                        .frame(width: 216,height: 40.0)
                         .padding(4)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(.gray, lineWidth: 1)
                         )
-
+                    
                     HStack(spacing: 20) {
                         Button {
                             if Double(viewModel.value) != nil {
-                                print(viewModel.value)
                                 viewModel.saveValue(addBool: true)
                             }
-
                         } label: {
                             Text("Add")
                                 .font(.title2)
@@ -68,13 +62,11 @@ struct DetailsView: View {
                         .background(Color.green)
                         .foregroundColor(Color.white)
                         .cornerRadius(10)
-
+                        
                         Button {
                             if Double(viewModel.value) != nil {
-                                print(viewModel.value)
                                 viewModel.saveValue(addBool: false)
                             }
-
                         } label: {
                             Text("Remove")
                                 .font(.title2)
@@ -91,52 +83,41 @@ struct DetailsView: View {
                     VStack{
                         Text("History transaction")
                         ForEach(viewModel.history) { trans in
-                            TransactionCell(trans: trans, symbol: viewModel.coinCD.symbolW )
+                            TransactionCell(trans: trans, symbol: viewModel.coinCD.symbolW)
                         }
                     }.padding(.bottom, 30)
                     
-                        Button {
-                            presentAlert = true
-                        } label: {
-                            Text("Delete coin")
-                                .foregroundColor(Color.red)
-                        }
+                    Button {
+                        presentAlert = true
+                    } label: {
+                        Text("Delete coin")
+                            .foregroundColor(Color.red)
+                    }
                     
                 }
             }
-
-                .alert("Warning", isPresented: $presentAlert, actions: {
-                    
-                    Button("Accept", action: {
-                        popAndDelete()
-                    })
-                    Button("Cancel", role: .cancel, action: {})
-                }, message: {
-                    Text("You will delete the coin and its entire history")
-                })
             
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading ) {
-                        Button(action: pop) {
-                            Label("%%%%", systemImage: "chevron.left")
-                                .font(.title)
-                        }
+            .alert("Warning", isPresented: $presentAlert, actions: {
+                Button("Accept", action: {
+                    popAndDelete()
+                })
+                Button("Cancel", role: .cancel, action: {})
+            }, message: {
+                Text("You will delete the coin and its entire history")
+            })
+            
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: pop) {
+                        Label("%%%%", systemImage: "chevron.left")
+                            .font(.title)
                     }
                 }
-                .navigationBarTitleDisplayMode(.inline)
-                
+            }
+            .navigationBarTitleDisplayMode(.inline)
         }
-       
-//
-//
-
     }
 }
-
-//var coinCD = CoinCD()
-//var vm = DetailsViewModel(coin: Coin(id: "1", name: "Bincoin", symbol: "BTC", logoUrl: "", amount: 1.0, price: 23103.0), coinCD: coinCD )
-//
-//
 //struct DetailsView_Previews: PreviewProvider {
 //
 //    static var previews: some View {
