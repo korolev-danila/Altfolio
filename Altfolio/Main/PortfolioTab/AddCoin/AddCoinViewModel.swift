@@ -6,29 +6,33 @@
 //
 
 import Foundation
-import CoreData
 
 class AddCoinViewModel: ObservableObject {
+    private let network: NetworkProtocol
     
     @Published var coins = [CoinOfCMC]()
-    
     @Published var selected = CoinOfCMC(id: "1", name: "Bitcoin", rank: 1, slug: "bitcoin", symbol: "BTC")
     @Published var ticker = "btc"
     @Published var amount = ""
     @Published var searchText = ""
     
     var searchResults: [CoinOfCMC] {
-           if searchText.isEmpty {
-               return coins
-           } else {
-               return coins.filter { $0.name.hasPrefix(searchText) || $0.symbol.hasPrefix(searchText)  }
-           }
-       }
+        if searchText.isEmpty {
+            return coins
+        } else {
+            return coins.filter { $0.name.hasPrefix(searchText) || $0.symbol.hasPrefix(searchText) }
+        }
+    }
+    
+    init(network: NetworkProtocol) {
+        self.network = network
+    }
     
     func updateSelected() {
         DispatchQueue.main.async {
-            NetworkManager.shared.fetchLogoURL(id: self.selected.id) { logoString in
-                self.selected.logoUrl = logoString[0]
+            self.network.fetchLogoURL(id: self.selected.id) { [weak self] logoString in
+                guard let _self = self else { return }
+                _self.selected.logoUrl = logoString[0]
             }
         }
     }

@@ -8,17 +8,23 @@
 import Foundation
 import Alamofire
 
-class NetworkManager {
-    
-    static let shared = NetworkManager()
-    
-    let headers: HTTPHeaders = [
+protocol NetworkProtocol {
+    func fetchMap( completion: @escaping (_ coins: [CoinOfCMC]) -> ())
+    func fetchLogoURL(id: String, completion: @escaping (_ logoString: [String]) -> ())
+    func fetchLogoUrlArray(idString: String, idArray: [String], completion: @escaping (_ logoDict: [String:String]) -> ())
+    func fetchImg(url: String, completion: @escaping (_ imageData: Data) -> ())
+    func fetchPriceArray(idString: String, idArray: [String], completion: @escaping (_ logoDict: [String:Double]) -> ())
+}
+
+final class NetworkManager {
+    private let headers: HTTPHeaders = [
         "Accepts": "application/json",
         "X-CMC_PRO_API_KEY": "e90479d1-ff9e-4551-85bc-fb25b4863739" /// use CoinMarketCap api key
     ]
-    
-    private init() {}
-    
+}
+
+// MARK: - NetworkManagerProtocol
+extension NetworkManager: NetworkProtocol {
     func fetchMap( completion: @escaping (_ coins: [CoinOfCMC]) -> ()) {
         let urlBasic = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map"
         let parameters: Parameters = [
@@ -27,12 +33,9 @@ class NetworkManager {
         ]
         
         guard let url = URL(string: urlBasic) else { return }
-        
-        
         AF.request(url, parameters: parameters, headers: headers).responseJSON { response in
             switch response.result {
             case .success(let value):
-                
                 guard let responts = value as? NSDictionary else { return }
                 guard let data = responts.object(forKey: "data") else { return }
                 
@@ -40,7 +43,6 @@ class NetworkManager {
                 coins = CoinOfCMC.getArray(from: data)!
                 
                 completion(coins)
-                
             case .failure(let error):
                 print(error)
             }
@@ -48,7 +50,6 @@ class NetworkManager {
     }
     
     func fetchLogoURL(id: String, completion: @escaping (_ logoString: [String]) -> ()) {
-        
         let url = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/info"
         let parameters: Parameters = [
             "id" : id ,
@@ -67,7 +68,6 @@ class NetworkManager {
                 
                 let arrStr = [string]
                 completion(arrStr)
-                
             case .failure(let error):
                 print(error)
             }
@@ -75,7 +75,6 @@ class NetworkManager {
     }
     
     func fetchLogoUrlArray(idString: String, idArray: [String], completion: @escaping (_ logoDict: [String:String]) -> ()) {
-        
         let url = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/info"
         let parameters: Parameters = [
             "id" : idString ,
@@ -84,7 +83,6 @@ class NetworkManager {
         
         guard let url = URL(string: url) else { return }
         AF.request(url, parameters: parameters, headers: headers).responseJSON { (response) in
-            
             switch response.result {
             case .success(let value):
                 guard let responts = value as? NSDictionary else { return }
@@ -97,9 +95,7 @@ class NetworkManager {
                     guard let string = idData.object(forKey: "logo") as? String else { return }
                     dict[id] = string
                 }
-                
                 completion(dict)
-                
             case .failure(let error):
                 print("Request failed with error \(error)")
             }
@@ -107,13 +103,11 @@ class NetworkManager {
     }
     
     func fetchImg(url: String, completion: @escaping (_ imageData: Data) -> ()) {
-        
         guard let url = URL(string: url) else { return }
         AF.request(url).responseData { (response) in
             switch response.result {
             case .success(let data):
                 completion(data)
-                
             case .failure(let error):
                 print(error)
             }
@@ -121,7 +115,6 @@ class NetworkManager {
     }
     
     func fetchPriceArray(idString: String, idArray: [String], completion: @escaping (_ logoDict: [String:Double]) -> ()) {
-        
         let url = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest"
         let parameters: Parameters = [
             "id" : idString
@@ -129,7 +122,6 @@ class NetworkManager {
         
         guard let url = URL(string: url) else { return }
         AF.request(url, parameters: parameters, headers: headers).responseJSON { (response) in
-            
             switch response.result {
             case .success(let value):
                 guard let responts = value as? NSDictionary else { return }
@@ -145,11 +137,9 @@ class NetworkManager {
                     dict[id] = price
                 }
                 completion(dict)
-                
             case .failure(let error):
                 print("Request failed with error \(error)")
             }
         }
     }
-    
 }

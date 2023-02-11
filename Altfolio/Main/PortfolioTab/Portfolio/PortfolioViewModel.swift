@@ -6,114 +6,62 @@
 //
 
 import Foundation
-import CoreData
-import UIKit
 import SwiftUI
 
 class PortfolioViewModel: ObservableObject {
+    
+    private let coreData: CoreDataProtocol
+    private let network: NetworkProtocol
     
     @Published var coinsMap = [CoinOfCMC]()
     @Published var coinsCD = [CoinCD]()
     @Published var coins = [Coin]()
     @Published var totalBalance: Int = 0
     
-    var timer: Timer?
+    private var timer: Timer?
     
-    let context: NSManagedObjectContext = {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        return context
-    }()
+    init(coreData: CoreDataProtocol, network: NetworkProtocol) {
+        self.coreData = coreData
+        self.network = network
+    }
     
     // MARK: - CoreData layer
     func fetchMyCoins() {
-        let fetchRequest: NSFetchRequest<CoinCD> = CoinCD.fetchRequest()
-        
-        do {
-            coinsCD = try context.fetch(fetchRequest)
-            coins.removeAll()
-            for coin in coinsCD {
-                coins.append(initCoin(coin))
-            }
-        } catch let error as NSError {
-            print(error.localizedDescription)
+        coinsCD = coreData.fetchMyCoins()
+        coins.removeAll()
+        for coin in coinsCD {
+            coins.append(initCoin(coin))
         }
     }
     
     func initCoin(_ coin: CoinCD) -> Coin {
         let coin = Coin(id: coin.idW, name: coin.nameW, symbol: coin.symbolW , logoUrl: coin.logoUrlW , amount: coin.amount , price: coin.price)
-        
         return coin
     }
     
-    func resetAllRecords() {
-        
-        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "CoinCD")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-        do {
-            try context.execute(deleteRequest)
-            try context.save()
-        } catch {
-            print ("There was an error")
-        }
-    }
-    
     func save(coin: CoinOfCMC, amount: String) {
-        
         if amount == "" { return }
-        
         guard let value = Double(amount) else { return }
         
-        if coinsCD.filter({ $0.symbol == coin.symbol }).first != nil {
-            do {
-                coins.filter{ $0.symbol == coin.symbol }.first?.amount += value
-                coinsCD.filter{ $0.symbol == coin.symbol }.first?.amount += value
-                
-                guard let entity = NSEntityDescription.entity(forEntityName: "Transaction", in: context) else { return }
-                let trans = Transaction(entity: entity , insertInto: context)
-                trans.date = Date()
-                trans.amount = value
-                trans.addBool = true
-                coinsCD.filter{ $0.symbol == coin.symbol }.first?.addToHistory(trans)
-                
-                updateTotalBalance()
-                try context.save()
-                print("save old coin")
-            } catch let error as NSError {
-                print(error.localizedDescription)
-            }
-            
+        if let coinCD = coinsCD.filter({ $0.symbol == coin.symbol }).first {
+            guard let trans = coreData.createOld(coin: coinCD, value: value) else { return }
+            coins.filter{ $0.symbol == coin.symbol }.first?.amount += value
+            coinCD.amount += value
+            coinCD.addToHistory(trans)
+            coreData.saveContext()
+            updateTotalBalance()
         } else {
-            guard let entity = NSEntityDescription.entity(forEntityName: "CoinCD", in: context) else { return }
-            let myCoin = CoinCD(entity: entity , insertInto: context)
-            myCoin.id = coin.id
-            myCoin.symbol = coin.symbol
-            myCoin.name = coin.name
-            myCoin.amount = value
-            myCoin.price = 0.0
-            myCoin.logoUrl = coin.logoUrl
-            
-            do {
-                try context.save()
-                coinsCD.append(myCoin)
-                coins.append(initCoin(myCoin))
-                fetchPrice(coinId: coin.id)
-            } catch let error as NSError {
-                print(error.localizedDescription)
-            }
+            guard let coinCD = coreData.createNew(coin: coin, value: value) else { return }
+            coinsCD.append(coinCD)
+            coins.append(initCoin(coinCD))
+            fetchPrice(coinId: coin.id)
+            coreData.saveContext()
         }
     }
     
     func deleteCoin(_ coinCD: CoinCD) {
-        
-        context.delete(coinCD)
-        
-        do {
-            try context.save()
-            self.fetchMyCoins()
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        }
+        coreData.deleteCoin(coinCD)
+        fetchMyCoins()
     }
     
     // MARK: - update totalBalance
@@ -127,10 +75,9 @@ class PortfolioViewModel: ObservableObject {
     
     // MARK: - Network layer
     @objc func updateAllPrice() {
-        
         if coinsCD.isEmpty { return }
         
-        if  timer == nil {
+        if timer == nil {
             let timer = Timer(timeInterval: 30.0,
                               target: self,
                               selector: #selector(updateAllPrice),
@@ -138,7 +85,6 @@ class PortfolioViewModel: ObservableObject {
                               repeats: true)
             RunLoop.current.add(timer, forMode: .common)
             timer.tolerance = 0.1
-            
             self.timer = timer
         }
         
@@ -157,38 +103,36 @@ class PortfolioViewModel: ObservableObject {
         }
         
         DispatchQueue.main.async {
-            NetworkManager.shared.fetchPriceArray(idString: idString, idArray: idArray, completion: { dict in
+            self.network.fetchPriceArray(idString: idString, idArray: idArray) { [weak self] logoDict in
+                guard let _self = self else { return }
                 
-                for (index,_) in self.coinsCD.enumerated() {
-                    if self.coinsCD[index].id == nil { return }
-                    guard let price = dict[self.coins[index].id] else {
+                for (index,_) in _self.coinsCD.enumerated() {
+                    if _self.coinsCD[index].id == nil { return }
+                    guard let price = logoDict[_self.coins[index].id] else {
                         print("error guard updatePrice()"); return }
-                    self.coinsCD[index].price = price
-                    self.coins[index].price = price
-                    self.updateTotalBalance()
+                    
+                    _self.coinsCD[index].price = price
+                    _self.coins[index].price = price
+                    _self.updateTotalBalance()
                 }
-                
-                do {
-                    try self.context.save()
-                } catch let error as NSError {
-                    print(error.localizedDescription)
-                }
-            })
+                _self.coreData.saveContext()
+            }
         }
     }
     
     func fetchPrice(coinId: String) {
-        NetworkManager.shared.fetchPriceArray(idString: coinId, idArray: [coinId], completion: { dict in
-            print(" newPrice of newCoin ")
-            self.coins.filter{ $0.id == coinId }.first?.price = dict[coinId] ?? 0.0
-            self.updateTotalBalance()
-        })
+        network.fetchPriceArray(idString: coinId, idArray: [coinId]) { [weak self] logoDict in
+            guard let _self = self else { return }
+            _self.coins.filter{ $0.id == coinId }.first?.price = logoDict[coinId] ?? 0.0
+            _self.updateTotalBalance()
+        }
     }
     
     func updateURL() {
         print(" func updateURL")
         var idArray = [String]()
         var idString = ""
+        
         for (index,coin) in self.coinsMap.enumerated() {
             idArray.append(coin.id)
             if index == 0 {
@@ -199,14 +143,17 @@ class PortfolioViewModel: ObservableObject {
         }
         
         DispatchQueue.main.async {
-            NetworkManager.shared.fetchLogoUrlArray(idString: idString, idArray: idArray, completion: { dict in
-                for (index,_) in self.coinsMap.enumerated() {
-                    guard let urlStr = dict[self.coinsMap[index].id] else {
-                        print("error guard updateURL()"); return }
-                    self.coinsMap[index].logoUrl = urlStr
+            self.network.fetchLogoUrlArray(idString: idString, idArray: idArray) { [weak self] logoDict in
+                guard let _self = self else { return }
+                for (index,_) in _self.coinsMap.enumerated() {
+                    guard let urlStr = logoDict[_self.coinsMap[index].id] else {
+                        print("error guard updateURL()")
+                        return
+                    }
+                    _self.coinsMap[index].logoUrl = urlStr
                 }
-            })
+            }
         }
     }
-    
 }
+

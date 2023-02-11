@@ -12,6 +12,9 @@ final class PortfolioCoordinator {
     var rootViewController: UINavigationController
     private var viewModel: PortfolioViewModel
     
+    private let coreData: CoreDataProtocol
+    private let network: NetworkProtocol
+    
     private lazy var portfolioView: PortfolioView = {
         var view = PortfolioView(viewModel: viewModel)
         
@@ -24,15 +27,17 @@ final class PortfolioCoordinator {
         return view
     }()
     
-    init() {
+    init(coreData: CoreDataProtocol, network: NetworkProtocol) {
+        self.coreData = coreData
+        self.network = network
         rootViewController = UINavigationController()
         rootViewController.navigationBar.isHidden = true
-        viewModel = PortfolioViewModel()
+        viewModel = PortfolioViewModel(coreData: coreData, network: network)
     }
     
     // MARK: - Navigation AddCoin
     private func showAddCoin() {
-        let addCoinVM = AddCoinViewModel()
+        let addCoinVM = AddCoinViewModel(network: network)
         addCoinVM.coins = viewModel.coinsMap
         
         if addCoinVM.selected.logoUrl == "" {
@@ -54,7 +59,7 @@ final class PortfolioCoordinator {
     }
     
     private func save(coin: CoinOfCMC, amount: String) {
-        viewModel.save(coin: coin,amount: amount)
+        viewModel.save(coin: coin, amount: amount)
         rootViewController.popViewController(animated: true)
     }
     
@@ -68,7 +73,6 @@ final class PortfolioCoordinator {
         searchView.popSearchView = { [weak self] in
             self?.dismissSearch()
         }
-        
         rootViewController.showDetailViewController(UIHostingController(rootView: searchView), sender: nil)
     }
     
@@ -80,14 +84,15 @@ final class PortfolioCoordinator {
     private func showDetails(coin: Coin) {
         guard let coinCD = viewModel.coinsCD.filter({ $0.symbol == coin.symbol }).first else {print("error guard"); return }
         
-        let detailsVM = DetailsViewModel(coin: coin ,coinCD: coinCD)
+        let detailsVM = DetailsViewModel(coin: coin ,coinCD: coinCD, coreData: coreData)
         var detailsView = DetailsView(viewModel: detailsVM )
         
         detailsView.popDetails = { [weak self] in
             self?.dismissDetails()
         }
         detailsView.popDetailsWithDelete = { [weak self] in
-            self?.viewModel.deleteCoin(coinCD)
+            self?.coreData.deleteCoin(coinCD)
+            self?.viewModel.fetchMyCoins()
             self?.dismissDetails()
         }
         
@@ -111,9 +116,10 @@ extension PortfolioCoordinator: CoordinatorProtocol {
         rootViewController.setViewControllers( [UIHostingController(rootView: portfolioView)] , animated: true)
         
         DispatchQueue.main.async {
-            NetworkManager.shared.fetchMap { coins in
-                self.viewModel.coinsMap = coins
-                self.viewModel.updateURL()
+            self.network.fetchMap { [weak self] coins in
+                guard let _self = self else { return }
+                _self.viewModel.coinsMap = coins
+                _self.viewModel.updateURL()
             }
         }
     }

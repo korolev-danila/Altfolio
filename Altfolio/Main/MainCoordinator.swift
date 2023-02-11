@@ -10,9 +10,10 @@ import UIKit
 import SwiftUI
 
 final class MainCoordinator {
-    
     var rootViewController: UITabBarController
     private var childCoordinator = [CoordinatorProtocol]()
+    private let coreDataManager = CoreDataManager()
+    private let networkManager = NetworkManager()
     
     init() {
         rootViewController = UITabBarController()
@@ -29,13 +30,13 @@ final class MainCoordinator {
 
 extension MainCoordinator: CoordinatorProtocol {
     func start() {
-        let portfolioCoordinator = PortfolioCoordinator()
+        let portfolioCoordinator = PortfolioCoordinator(coreData: coreDataManager, network: networkManager)
         portfolioCoordinator.start()
         childCoordinator.append(portfolioCoordinator)
         let portfolioView = portfolioCoordinator.rootViewController
         setup(vc: portfolioView, title: "Home", imageName: "paperplane", selectedImageName: "paperplane.fill")
         
-        let analyticsCoordinator = AnalyticsCoordinator()
+        let analyticsCoordinator = AnalyticsCoordinator(coreData: coreDataManager, network: networkManager)
         analyticsCoordinator.start()
         childCoordinator.append(analyticsCoordinator)
         let analyticsView = analyticsCoordinator.rootViewController

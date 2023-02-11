@@ -6,27 +6,21 @@
 //
 
 import Foundation
-import CoreData
 import UIKit
 
 class DetailsViewModel: ObservableObject {
+    private let coreData: CoreDataProtocol
     
     @Published var coin: Coin
     @Published var coinCD: CoinCD
     @Published var history: Array<Transaction>
-
     @Published var value: String = ""
     
-    let context: NSManagedObjectContext = {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        return context
-    }()
-    
-    init(coin: Coin,coinCD: CoinCD) {
+    init(coin: Coin, coinCD: CoinCD, coreData: CoreDataProtocol) {
         self.coin = coin
         self.coinCD = coinCD
-        self.history  = coinCD.historyArray
+        self.history = coinCD.historyArray
+        self.coreData = coreData
     }
     
     func saveValue(addBool: Bool) {
@@ -40,18 +34,10 @@ class DetailsViewModel: ObservableObject {
             coinCD.amount -= amount
         }
         
-        do {
-            guard let entity = NSEntityDescription.entity(forEntityName: "Transaction", in: context) else { return }
-            let trans = Transaction(entity: entity , insertInto: context)
-            trans.date = Date()
-            trans.amount = amount
-            trans.addBool = addBool
-            coinCD.addToHistory(trans)
-            self.history  = coinCD.historyArray
-            
-            try context.save()
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        }
+        guard let trans = coreData.createOld(coin: coinCD, value: amount) else { return }
+        trans.addBool = addBool
+        coinCD.addToHistory(trans)
+        history = coinCD.historyArray
+        coreData.saveContext()
     }
 }

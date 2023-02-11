@@ -11,6 +11,7 @@
 		83067D8928BFBB33004AC4CE /* CoinOfCMCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83067D8828BFBB33004AC4CE /* CoinOfCMCModel.swift */; };
 		834F7E052996A7A600B39244 /* ExtensionSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834F7E042996A7A600B39244 /* ExtensionSwiftUI.swift */; };
 		836546D6291EB0F20083DFC7 /* AnalyticsCoordinatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836546D5291EB0F20083DFC7 /* AnalyticsCoordinatorTest.swift */; };
+		8378509C2997E08D0004E988 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8378509B2997E08D0004E988 /* CoreDataManager.swift */; };
 		837B2D6A28BA4BA7009A5888 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837B2D6928BA4BA7009A5888 /* AppDelegate.swift */; };
 		837B2D6C28BA4BA7009A5888 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837B2D6B28BA4BA7009A5888 /* SceneDelegate.swift */; };
 		837B2D7428BA4BA8009A5888 /* Altfolio.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 837B2D7228BA4BA8009A5888 /* Altfolio.xcdatamodeld */; };
@@ -75,6 +76,7 @@
 		83067D8828BFBB33004AC4CE /* CoinOfCMCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinOfCMCModel.swift; sourceTree = "<group>"; };
 		834F7E042996A7A600B39244 /* ExtensionSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionSwiftUI.swift; sourceTree = "<group>"; };
 		836546D5291EB0F20083DFC7 /* AnalyticsCoordinatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsCoordinatorTest.swift; sourceTree = "<group>"; };
+		8378509B2997E08D0004E988 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		837B2D6628BA4BA7009A5888 /* Altfolio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Altfolio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		837B2D6928BA4BA7009A5888 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		837B2D6B28BA4BA7009A5888 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 			children = (
 				83CFBC1729254FC2001FF864 /* CoreData */,
 				83893E2D28BE6FA00076AC32 /* NetworkManager.swift */,
+				8378509B2997E08D0004E988 /* CoreDataManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -653,6 +656,7 @@
 				837B2D6A28BA4BA7009A5888 /* AppDelegate.swift in Sources */,
 				837B2D9D28BA4C02009A5888 /* CoordinatorProtocol.swift in Sources */,
 				834F7E052996A7A600B39244 /* ExtensionSwiftUI.swift in Sources */,
+				8378509C2997E08D0004E988 /* CoreDataManager.swift in Sources */,
 				837B2D6C28BA4BA7009A5888 /* SceneDelegate.swift in Sources */,
 				83DF662D291957130032C7D9 /* DetailsViewModel.swift in Sources */,
 				837B2DBA28BA8DD6009A5888 /* AnalyticsViewModel.swift in Sources */,
@@ -857,6 +861,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Altfolio";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -884,6 +891,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "-.Altfolio";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

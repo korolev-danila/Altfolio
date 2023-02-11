@@ -13,12 +13,17 @@ class AnalyticsCoordinator {
     var rootViewController: UINavigationController
     private var viewModel: AnalyticsViewModel
     
+    private let coreData: CoreDataProtocol
+    private let network: NetworkProtocol
+    
     private lazy var analyticsView: AnalyticsView = {
         var view = AnalyticsView(viewModel: viewModel)
         return view
     }()
     
-    init() {
+    init(coreData: CoreDataProtocol, network: NetworkProtocol) {
+        self.coreData = coreData
+        self.network = network
         rootViewController = UINavigationController()
         rootViewController.navigationBar.backgroundColor = .blue
         rootViewController.navigationBar.prefersLargeTitles = false

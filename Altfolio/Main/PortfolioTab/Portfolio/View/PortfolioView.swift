@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PortfolioView: View {
-    
     @ObservedObject var viewModel: PortfolioViewModel
     
     init(viewModel: PortfolioViewModel) {
@@ -66,8 +65,8 @@ struct PortfolioView: View {
     }
 }
 
-struct PortfolioView_Previews: PreviewProvider {
-    static var previews: some View {
-        PortfolioView(viewModel: PortfolioViewModel())
-    }
-}
+//struct PortfolioView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PortfolioView(viewModel: PortfolioViewModel())
+//    }
+//}
