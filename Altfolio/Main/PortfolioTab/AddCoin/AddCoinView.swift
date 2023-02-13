@@ -77,9 +77,3 @@ struct AddCoinView: View {
         }
     }
 }
-
-//struct AddCoinView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddCoinView(viewModel: AddCoinViewModel())
-//    }
-//}

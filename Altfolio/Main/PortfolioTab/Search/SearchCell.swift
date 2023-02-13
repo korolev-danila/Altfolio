@@ -7,15 +7,7 @@
 
 import SwiftUI
 
-var coinMok = CoinOfCMC(json: ["id" : "1", "name": "Name", "rank": 1, "slug":"bitcoin", "symbol": "BTC"])!
-//coinMok.id = "1"
-//coinMok.name = "name"
-//coinMok.rank = 1
-//coinMok.slug = "vfvf"
-//coinMok.symbol = "BTC"
-
 struct SearchCell: View {
-    
     var coin: CoinOfCMC
     
     var body: some View {
@@ -35,8 +27,3 @@ struct SearchCell: View {
     }
 }
 
-struct SearchCell_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchCell(coin: coinMok)
-    }
-}

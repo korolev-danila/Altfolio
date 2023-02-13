@@ -8,7 +8,6 @@
 import Foundation
 
 struct CoinOfCMC: Codable, Identifiable, Hashable {
-    
     let id: String
     let name: String
     let rank: Int
@@ -17,7 +16,6 @@ struct CoinOfCMC: Codable, Identifiable, Hashable {
     var logoUrl: String = ""
     
     init?(json: [String: Any]) {
-        
         let id = json["id"] as! Int
         let name = json["name"] as! String
         let rank = json["rank"] as! Int

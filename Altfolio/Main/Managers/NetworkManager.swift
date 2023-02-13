@@ -33,16 +33,18 @@ extension NetworkManager: NetworkProtocol {
         ]
         
         guard let url = URL(string: urlBasic) else { return }
-        AF.request(url, parameters: parameters, headers: headers).responseJSON { response in
+        AF.request(url, parameters: parameters, headers: headers).responseData { response in
             switch response.result {
             case .success(let value):
-                guard let responts = value as? NSDictionary else { return }
-                guard let data = responts.object(forKey: "data") else { return }
-                
-                var coins = [CoinOfCMC]()
-                coins = CoinOfCMC.getArray(from: data)!
-                
-                completion(coins)
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: value)
+                    guard let responts = asJSON as? NSDictionary else { return }
+                    guard let data = responts.object(forKey: "data") else { return }
+                    guard let coins = CoinOfCMC.getArray(from: data) else { return }
+                    completion(coins)
+                } catch {
+                    print("Error while decoding response: \(error)")
+                }
             case .failure(let error):
                 print(error)
             }
@@ -57,17 +59,21 @@ extension NetworkManager: NetworkProtocol {
         ]
         
         guard let url = URL(string: url) else { return }
-        AF.request(url, parameters: parameters, headers: headers).responseJSON { (response) in
+        AF.request(url, parameters: parameters, headers: headers).responseData { (response) in
             switch response.result {
             case .success(let value):
-                
-                guard let responts = value as? NSDictionary else { return }
-                guard let data = responts.object(forKey: "data") as? NSDictionary else { return }
-                guard let idData = data.object(forKey: id) as? NSDictionary else { return }
-                guard let string = idData.object(forKey: "logo") as? String else { return }
-                
-                let arrStr = [string]
-                completion(arrStr)
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: value)
+                    
+                    guard let responts = asJSON as? NSDictionary else { return }
+                    guard let data = responts.object(forKey: "data") as? NSDictionary else { return }
+                    guard let idData = data.object(forKey: id) as? NSDictionary else { return }
+                    guard let string = idData.object(forKey: "logo") as? String else { return }
+                    let arrStr = [string]
+                    completion(arrStr)
+                } catch {
+                    print("Error while decoding response: \(error)")
+                }
             case .failure(let error):
                 print(error)
             }
@@ -82,20 +88,25 @@ extension NetworkManager: NetworkProtocol {
         ]
         
         guard let url = URL(string: url) else { return }
-        AF.request(url, parameters: parameters, headers: headers).responseJSON { (response) in
+        AF.request(url, parameters: parameters, headers: headers).responseData { (response) in
             switch response.result {
             case .success(let value):
-                guard let responts = value as? NSDictionary else { return }
-                guard let data = responts.object(forKey: "data") as? NSDictionary else { return }
-                
-                var dict = [String:String]()
-                
-                for id in idArray {
-                    guard let idData = data.object(forKey: id) as? NSDictionary else { return }
-                    guard let string = idData.object(forKey: "logo") as? String else { return }
-                    dict[id] = string
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: value)
+                    guard let responts = asJSON as? NSDictionary else { return }
+                    guard let data = responts.object(forKey: "data") as? NSDictionary else { return }
+                    
+                    var dict = [String:String]()
+                    
+                    for id in idArray {
+                        guard let idData = data.object(forKey: id) as? NSDictionary else { return }
+                        guard let string = idData.object(forKey: "logo") as? String else { return }
+                        dict[id] = string
+                    }
+                    completion(dict)
+                } catch {
+                    print("Error while decoding response: \(error)")
                 }
-                completion(dict)
             case .failure(let error):
                 print("Request failed with error \(error)")
             }
@@ -121,22 +132,27 @@ extension NetworkManager: NetworkProtocol {
         ]
         
         guard let url = URL(string: url) else { return }
-        AF.request(url, parameters: parameters, headers: headers).responseJSON { (response) in
+        AF.request(url, parameters: parameters, headers: headers).responseData { (response) in
             switch response.result {
             case .success(let value):
-                guard let responts = value as? NSDictionary else { return }
-                guard let data = responts.object(forKey: "data") as? NSDictionary else { return }
-                
-                var dict = [String:Double]()
-                
-                for id in idArray {
-                    guard let idData = data.object(forKey: id) as? NSDictionary else { return }
-                    guard let quote = idData.object(forKey: "quote") as? NSDictionary else { return }
-                    guard let usdPrice = quote.object(forKey: "USD") as? NSDictionary else { return }
-                    guard let price = usdPrice.object(forKey: "price") as? Double else { return }
-                    dict[id] = price
+                do {
+                    let asJSON = try JSONSerialization.jsonObject(with: value)
+                    guard let responts = asJSON as? NSDictionary else { return }
+                    guard let data = responts.object(forKey: "data") as? NSDictionary else { return }
+                    
+                    var dict = [String:Double]()
+                    
+                    for id in idArray {
+                        guard let idData = data.object(forKey: id) as? NSDictionary else { return }
+                        guard let quote = idData.object(forKey: "quote") as? NSDictionary else { return }
+                        guard let usdPrice = quote.object(forKey: "USD") as? NSDictionary else { return }
+                        guard let price = usdPrice.object(forKey: "price") as? Double else { return }
+                        dict[id] = price
+                    }
+                    completion(dict)
+                } catch {
+                    print("Error while decoding response: \(error)")
                 }
-                completion(dict)
             case .failure(let error):
                 print("Request failed with error \(error)")
             }

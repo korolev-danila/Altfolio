@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct DetailsView: View {
-    
     @ObservedObject var viewModel: DetailsViewModel
     
     @State private var presentAlert = false
@@ -16,7 +15,6 @@ struct DetailsView: View {
     
     init(viewModel: DetailsViewModel) {
         self.viewModel = viewModel
-        
     }
     
     var saveCoin: () -> () = { }
@@ -118,10 +116,4 @@ struct DetailsView: View {
         }
     }
 }
-//struct DetailsView_Previews: PreviewProvider {
-//
-//    static var previews: some View {
-//        DetailsView(viewModel: vm )
-//    }
-//}
 

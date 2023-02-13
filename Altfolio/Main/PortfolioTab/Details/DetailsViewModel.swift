@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 class DetailsViewModel: ObservableObject {
     private let coreData: CoreDataProtocol

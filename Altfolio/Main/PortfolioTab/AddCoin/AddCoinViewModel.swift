@@ -7,7 +7,7 @@
 
 import Foundation
 
-class AddCoinViewModel: ObservableObject {
+final class AddCoinViewModel: ObservableObject {
     private let network: NetworkProtocol
     
     @Published var coins = [CoinOfCMC]()
