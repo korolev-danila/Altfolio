@@ -25,10 +25,10 @@ class AnalyticsCoordinator {
         self.coreData = coreData
         self.network = network
         rootViewController = UINavigationController()
-        rootViewController.navigationBar.backgroundColor = .blue
+        rootViewController.navigationBar.backgroundColor = .clear
         rootViewController.navigationBar.prefersLargeTitles = false
         rootViewController.isNavigationBarHidden = false
-        viewModel = AnalyticsViewModel()
+        viewModel = AnalyticsViewModel(coreData: coreData)
     }
 }
 

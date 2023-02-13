@@ -10,6 +10,7 @@ import SwiftUI
 struct PortfolioView: View {
     @ObservedObject var viewModel: PortfolioViewModel
     
+    
     init(viewModel: PortfolioViewModel) {
         self.viewModel = viewModel
     }

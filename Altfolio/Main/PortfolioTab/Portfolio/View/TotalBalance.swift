@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-let backgroundGradient = LinearGradient(
-    colors: [Color.gray, Color.blue],
-    startPoint: .leading, endPoint: .trailing)
-
 struct TotalBalance: View {
     
     var balance: Int
+    
+    let backgroundGradient = LinearGradient(
+        colors: [Color.gray, Color.blue],
+        startPoint: .leading, endPoint: .trailing)
     
     var body: some View {
         HStack {
@@ -26,6 +26,7 @@ struct TotalBalance: View {
                     .font(.system(size: 45, weight: .bold, design: .default))
                     .minimumScaleFactor(0.005)
                     .lineLimit(1)
+                    .animation(.default, value: balance)
             }
             .padding(.leading)
             Spacer()
