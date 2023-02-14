@@ -35,6 +35,7 @@ class AnalyticsCoordinator {
 // MARK: - CoordinatorProtocol
 extension AnalyticsCoordinator: CoordinatorProtocol {
     func start() {
+        viewModel.fetchMyCoins()
         rootViewController.setViewControllers( [UIHostingController(rootView: analyticsView)] , animated: true)
     }
 }

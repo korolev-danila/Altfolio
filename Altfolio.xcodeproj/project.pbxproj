@@ -370,7 +370,6 @@
 				837B2D7528BA4BAC009A5888 /* Assets.xcassets */,
 				837B2D7728BA4BAC009A5888 /* LaunchScreen.storyboard */,
 				837B2D7A28BA4BAC009A5888 /* Info.plist */,
-				837B2D7228BA4BA8009A5888 /* Altfolio.xcdatamodeld */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -378,6 +377,7 @@
 		83CFBC1729254FC2001FF864 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				837B2D7228BA4BA8009A5888 /* Altfolio.xcdatamodeld */,
 				83F697BC291D56FB00B955CD /* Transaction+CoreDataClass.swift */,
 				83F697BD291D56FB00B955CD /* Transaction+CoreDataProperties.swift */,
 				83F697BE291D56FB00B955CD /* CoinCD+CoreDataClass.swift */,

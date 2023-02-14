@@ -7,8 +7,7 @@
 
 import Foundation
 
-class PortfolioViewModel: ObservableObject {
-    
+final class PortfolioViewModel: ObservableObject {
     private let coreData: CoreDataProtocol
     private let network: NetworkProtocol
     
@@ -33,8 +32,9 @@ class PortfolioViewModel: ObservableObject {
         }
     }
     
-    func initCoin(_ coin: CoinCD) -> Coin {
-        let coin = Coin(id: coin.idW, name: coin.nameW, symbol: coin.symbolW , logoUrl: coin.logoUrlW , amount: coin.amount , price: coin.price)
+    private func initCoin(_ coin: CoinCD) -> Coin {
+        let coin = Coin(id: coin.idW, name: coin.nameW, symbol: coin.symbolW,
+                        logoUrl: coin.logoUrlW, amount: coin.amount, price: coin.price)
         return coin
     }
     
@@ -88,12 +88,12 @@ class PortfolioViewModel: ObservableObject {
         }
         
         print("updateAllPrice")
-        
         var idArray = [String]()
         var idString = ""
+        
         for (index,coin) in self.coins.enumerated() {
-            //  if coin.id == nil { return }
             idArray.append(coin.id)
+            
             if index == 0 {
                 idString += coin.id
             } else {
@@ -105,7 +105,7 @@ class PortfolioViewModel: ObservableObject {
             self.network.fetchPriceArray(idString: idString, idArray: idArray) { [weak self] logoDict in
                 guard let _self = self else { return }
                 
-                for (index,_) in _self.coinsCD.enumerated() {
+                for (index, _) in _self.coinsCD.enumerated() {
                     if _self.coinsCD[index].id == nil { return }
                     guard let price = logoDict[_self.coins[index].id] else {
                         print("error guard updatePrice()"); return }
@@ -123,16 +123,17 @@ class PortfolioViewModel: ObservableObject {
         network.fetchPriceArray(idString: coinId, idArray: [coinId]) { [weak self] logoDict in
             guard let _self = self else { return }
             _self.coins.filter{ $0.id == coinId }.first?.price = logoDict[coinId] ?? 0.0
+            _self.coinsCD.filter{ $0.id == coinId }.first?.price = logoDict[coinId] ?? 0.0
+            _self.coreData.saveContext()
             _self.updateTotalBalance()
         }
     }
     
     func updateURL() {
-        print(" func updateURL")
         var idArray = [String]()
         var idString = ""
         
-        for (index,coin) in self.coinsMap.enumerated() {
+        for (index, coin) in self.coinsMap.enumerated() {
             idArray.append(coin.id)
             if index == 0 {
                 idString += coin.id
@@ -144,7 +145,7 @@ class PortfolioViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.network.fetchLogoUrlArray(idString: idString, idArray: idArray) { [weak self] logoDict in
                 guard let _self = self else { return }
-                for (index,_) in _self.coinsMap.enumerated() {
+                for (index, _) in _self.coinsMap.enumerated() {
                     guard let urlStr = logoDict[_self.coinsMap[index].id] else {
                         print("error guard updateURL()")
                         return
