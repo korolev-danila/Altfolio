@@ -43,7 +43,7 @@ final class PortfolioViewModel: ObservableObject {
         guard let value = Double(amount) else { return }
         
         if let coinCD = coinsCD.filter({ $0.symbol == coin.symbol }).first {
-            guard let trans = coreData.createOld(coin: coinCD, value: value) else { return }
+            guard let trans = coreData.createTrans(value: value) else { return }
             coins.filter{ $0.symbol == coin.symbol }.first?.amount += value
             coinCD.amount += value
             coinCD.addToHistory(trans)

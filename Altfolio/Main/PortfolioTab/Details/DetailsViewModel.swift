@@ -33,7 +33,7 @@ class DetailsViewModel: ObservableObject {
             coinCD.amount -= amount
         }
         
-        guard let trans = coreData.createOld(coin: coinCD, value: amount) else { return }
+        guard let trans = coreData.createTrans(value: amount) else { return }
         trans.addBool = addBool
         coinCD.addToHistory(trans)
         history = coinCD.historyArray

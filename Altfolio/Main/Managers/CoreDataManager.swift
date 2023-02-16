@@ -13,12 +13,11 @@ protocol CoreDataProtocol {
     func resetAllRecords()
     func saveContext()
     func createNew(coin: CoinOfCMC, value: Double) -> CoinCD?
-    func createOld(coin: CoinCD, value: Double) -> Transaction?
+    func createTrans(value: Double) -> Transaction?
     func deleteCoin(_ coinCD: CoinCD)
 }
 
 final class CoreDataManager {
-    
     private let context: NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
@@ -71,17 +70,19 @@ extension CoreDataManager: CoreDataProtocol {
         myCoin.price = 0.0
         myCoin.logoUrl = coin.logoUrl
         
+        if let trans = createTrans(value: value) {
+            myCoin.addToHistory(trans)
+        }
         return myCoin
     }
     
-    func createOld(coin: CoinCD, value: Double) -> Transaction? {
+    func createTrans(value: Double) -> Transaction? {
         guard let entity = NSEntityDescription.entity(forEntityName: "Transaction",
                                                       in: context) else { return nil }
         let trans = Transaction(entity: entity , insertInto: context)
         trans.date = Date()
         trans.amount = value
         trans.addBool = true
-        
         return trans
     }
     
