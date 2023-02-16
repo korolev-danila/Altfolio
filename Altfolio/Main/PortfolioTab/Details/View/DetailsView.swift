@@ -37,7 +37,6 @@ struct DetailsView: View {
                 
                 VStack(spacing: 10) {
                     TextField("  add amount", text: $viewModel.value)
-                        .keyboardType(.numberPad)
                         .contentShape(Rectangle())
                         .frame(width: 216,height: 40.0)
                         .padding(4)

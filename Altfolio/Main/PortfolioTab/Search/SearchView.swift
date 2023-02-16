@@ -34,7 +34,6 @@ struct SearchView: View {
             List(viewModel.searchResults, id: \.self){ coin in
                 SearchCell(coin: coin)
                     .onTapGesture {
-                        print("\(coin)")
                         viewModel.selected = coin
                         popSearchView()
                     }

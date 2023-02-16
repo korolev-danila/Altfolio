@@ -50,7 +50,6 @@ struct AddCoinView: View {
                     pushModal()
                 }
                 TextField("add amount", text: $viewModel.amount)
-                    .keyboardType(.numberPad)
                     .contentShape(Rectangle())
                     .frame(height: 45.0)
                     .padding()
